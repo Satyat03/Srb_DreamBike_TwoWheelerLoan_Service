@@ -32,7 +32,6 @@ public class CustomerEnquiry {
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "CustomerId", referencedColumnName = "cibilid")
 	private Cibil ci;
 	
 	

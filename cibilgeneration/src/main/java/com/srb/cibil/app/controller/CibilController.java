@@ -23,6 +23,7 @@ public class CibilController {
 		Random cb = new Random();
 		Cibil c = new Cibil();
 		
+		c.setCibilid(cibilid);
 		int cibilscore = cb.nextInt(300, 900);
 		c.setCibilScore(cibilscore);
 		
@@ -49,7 +50,7 @@ public class CibilController {
 		c.setCibilScoreDataTime(new Date());
 		System.out.println(c);
 
-		return new ResponseEntity<Cibil>(HttpStatus.CREATED);
+		return new ResponseEntity<Cibil>(c,HttpStatus.CREATED);
 	}
 
 }
