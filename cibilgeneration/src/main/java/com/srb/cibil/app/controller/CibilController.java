@@ -18,7 +18,7 @@ public class CibilController {
 	
 
 	@GetMapping("/{cibilid}")
-	public ResponseEntity<Cibil> generateCibilScore(@PathVariable int cibilid) {
+	public ResponseEntity<Cibil> generateCibilScore(@PathVariable ("cibilid")int cibilid) {
 
 		Random cb = new Random();
 		Cibil c = new Cibil();
@@ -52,5 +52,10 @@ public class CibilController {
 
 		return new ResponseEntity<Cibil>(c,HttpStatus.CREATED);
 	}
+
+	
+
+
+
 
 }
