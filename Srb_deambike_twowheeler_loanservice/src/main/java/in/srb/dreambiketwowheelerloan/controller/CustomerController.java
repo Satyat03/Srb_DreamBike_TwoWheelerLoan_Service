@@ -1,9 +1,14 @@
 package in.srb.dreambiketwowheelerloan.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -22,7 +27,7 @@ public class CustomerController {
 	RestTemplate rs;
 	
 	
-	@PostMapping("/getdata")
+	@PostMapping("/add")
 	public ResponseEntity<String> createCustomer(@RequestBody CustomerEnquiry cs) 
 	{
 		
@@ -37,7 +42,16 @@ public class CustomerController {
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 		
 	}
-	
+	@GetMapping("/getAll")
+	public ResponseEntity<List<CustomerEnquiry>> getAllData(){
+		List<CustomerEnquiry> list=csi.getAllCustomerEnquiryData();
+		return new ResponseEntity<List<CustomerEnquiry>>(list,HttpStatus.OK);
+	}
+	@PutMapping("/update/{CustomerId}")
+	public ResponseEntity<CustomerEnquiry> updatedata(@RequestBody CustomerEnquiry c,@PathVariable int CustomerId){
+		CustomerEnquiry ce=csi.updateCustomerEnquiryData(c,CustomerId);
+		return new ResponseEntity<CustomerEnquiry>(ce,HttpStatus.ACCEPTED);
+	}
 	
 	
 }
