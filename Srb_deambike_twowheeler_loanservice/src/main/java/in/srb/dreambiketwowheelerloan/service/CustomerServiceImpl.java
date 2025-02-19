@@ -1,5 +1,6 @@
 package in.srb.dreambiketwowheelerloan.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,16 @@ public class CustomerServiceImpl implements CustomerServiceI {
 		
 		
 		return null;
+	}
+
+	@Override
+	public List<String> getDataByStatus(String status)
+	{
+		List<String> op=cr.findAllByStatus(status);
+		
+			
+		
+		return op;
 	}
 
 }

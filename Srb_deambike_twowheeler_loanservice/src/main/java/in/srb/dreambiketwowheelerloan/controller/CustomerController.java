@@ -1,5 +1,7 @@
 package in.srb.dreambiketwowheelerloan.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,4 +52,19 @@ public class CustomerController {
 		
 		
 	}
+	
+	@GetMapping("/getStatus/{status}")
+	public ResponseEntity<List<String>> getEnquirystatus(@PathVariable ("status")String status)
+	{
+		List<String> ce=csi.getDataByStatus(status);
+		
+		return new ResponseEntity<List<String>>(ce, HttpStatus.ACCEPTED);
+		
+		
+		
+		
+		
+	}
+
+
 }
