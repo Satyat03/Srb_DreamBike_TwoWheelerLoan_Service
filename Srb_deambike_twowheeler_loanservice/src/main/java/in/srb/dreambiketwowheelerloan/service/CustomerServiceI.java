@@ -6,4 +6,10 @@ public interface CustomerServiceI {
 
 	 public void savedata(CustomerEnquiry cs);
 
+	public String deleteCustomer(int customerId);
+
+	public CustomerEnquiry getCustomer(int customerId);
+
+	public CustomerEnquiry updateCibilStatus(CustomerEnquiry customer);
+
 }
