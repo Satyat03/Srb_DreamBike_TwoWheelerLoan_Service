@@ -3,27 +3,32 @@ package in.srb.dreambiketwowheelerloan.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
-
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import in.srb.dreambiketwowheelerloan.model.Cibil;
 import in.srb.dreambiketwowheelerloan.model.CustomerEnquiry;
+import in.srb.dreambiketwowheelerloan.model.EmailSender;
 import in.srb.dreambiketwowheelerloan.service.CustomerServiceI;
+import in.srb.dreambiketwowheelerloan.utility.EmailService;
 
 @RestController
 public class CustomerController {
 
+	@Autowired
+	EmailService service;
+	@Value("${spring.mail.username}")
+	String from;
+	
+	
 	@Autowired
 	CustomerServiceI csi;
 	
@@ -82,21 +87,6 @@ public class CustomerController {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	@GetMapping("/getby/{CustomerId}")
 	public ResponseEntity<CustomerEnquiry> getSingle(@PathVariable ("CustomerId")int CustomerId )
 	{
@@ -106,6 +96,19 @@ public class CustomerController {
 		
 		
 	}
+	
+	@PostMapping("/email")
+	public String sendMail(@RequestBody EmailSender e)
+	{
+		try {
+			e.setFrom(from);
+			service.sendMail(e);
+		} catch (Exception e2) {
+			return "email not send"+e2;
+		}
+		return "email send";
+		}
+	}
 
 
-}
+
