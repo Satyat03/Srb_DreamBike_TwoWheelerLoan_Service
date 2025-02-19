@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import in.srb.dreambiketwowheelerloan.dto.CustomerResponce;
 import in.srb.dreambiketwowheelerloan.exception.AdharCardInvalidException;
 import in.srb.dreambiketwowheelerloan.exception.AgeMisMatchException;
+import in.srb.dreambiketwowheelerloan.exception.CaseMisMatchException;
 import in.srb.dreambiketwowheelerloan.exception.EmailInvalidException;
 import in.srb.dreambiketwowheelerloan.exception.MobileNoInvalidException;
 import in.srb.dreambiketwowheelerloan.exception.PanCardInvalidException;
@@ -17,6 +18,14 @@ import in.srb.dreambiketwowheelerloan.exception.PanCardInvalidException;
 @RestControllerAdvice
 public class GlobalException {
 
+	
+	@ExceptionHandler(CaseMisMatchException.class)
+	public ResponseEntity<CustomerResponce> handleCaseMisMatchException(CaseMisMatchException ae){
+		String message = ae.getMessage();
+		CustomerResponce ur=new CustomerResponce(message,new Date());
+	    
+        return new ResponseEntity<CustomerResponce>(ur,HttpStatus.BAD_REQUEST);	
+	}
 	
 	@ExceptionHandler(AgeMisMatchException.class)
 	public ResponseEntity<CustomerResponce> handleAgeMisMatchException(AgeMisMatchException ae){
