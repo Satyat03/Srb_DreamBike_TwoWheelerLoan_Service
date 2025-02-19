@@ -1,6 +1,10 @@
 package in.srb.dreambiketwowheelerloan.service;
 
+
 import java.util.List;
+
+import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,8 +67,26 @@ public class CustomerServiceImpl implements CustomerServiceI {
 	        
 			
 		
-		CustomerEnquiry customerEnquiry = cr.save(c);
-		return customerEnquiry;
+		CustomerEnquiry ce = cr.save(c);
+		
+		return ce;
+	}
+
+	public CustomerEnquiry getSingleRecord(int customerId) 
+	{
+		Optional<CustomerEnquiry> op=cr.findById(customerId);
+		
+				if(op.isPresent())
+				{
+					CustomerEnquiry cusEn=op.get();
+					
+					return cusEn;
+				}
+		
+		
+		
+		return null;
+
 	}
 
 }

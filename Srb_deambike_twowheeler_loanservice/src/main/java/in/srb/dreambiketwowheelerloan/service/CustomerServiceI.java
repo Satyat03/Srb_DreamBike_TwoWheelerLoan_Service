@@ -8,7 +8,12 @@ public interface CustomerServiceI {
 
 	 public void savedata(CustomerEnquiry cs);
 
+
 	 public List<CustomerEnquiry> getAllCustomerEnquiryData();
 
 	public CustomerEnquiry updateCustomerEnquiryData(CustomerEnquiry c, int customerId);
+
+	public CustomerEnquiry getSingleRecord(int customerId);
+
+
 }

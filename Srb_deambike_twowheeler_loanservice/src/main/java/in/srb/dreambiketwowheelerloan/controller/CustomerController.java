@@ -37,11 +37,13 @@ public class CustomerController {
 		
 		cs.setCi(cibilscore);
 		
+		
 		csi.savedata(cs);
 		
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 		
 	}
+
 	@GetMapping("/getAll")
 	public ResponseEntity<List<CustomerEnquiry>> getAllData(){
 		List<CustomerEnquiry> list=csi.getAllCustomerEnquiryData();
@@ -53,5 +55,16 @@ public class CustomerController {
 		return new ResponseEntity<CustomerEnquiry>(ce,HttpStatus.ACCEPTED);
 	}
 	
+
 	
+	@GetMapping("/getby/{CustomerId}")
+	public ResponseEntity<CustomerEnquiry> getSingle(@PathVariable ("CustomerId")int CustomerId )
+	{
+		CustomerEnquiry ce=csi.getSingleRecord(CustomerId);
+		
+		return new ResponseEntity<CustomerEnquiry>(ce,HttpStatus.OK);
+		
+		
+	}
+
 }
