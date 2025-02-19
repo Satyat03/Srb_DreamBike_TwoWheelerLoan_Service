@@ -6,4 +6,6 @@ public interface CustomerServiceI {
 
 	 public void savedata(CustomerEnquiry cs);
 
+	public CustomerEnquiry getSingleRecord(int customerId);
+
 }

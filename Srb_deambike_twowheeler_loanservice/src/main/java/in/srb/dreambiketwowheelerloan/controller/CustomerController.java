@@ -3,6 +3,8 @@ package in.srb.dreambiketwowheelerloan.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,12 +34,20 @@ public class CustomerController {
 		
 		cs.setCi(cibilscore);
 		
+		
 		csi.savedata(cs);
 		
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 		
 	}
 	
-	
-	
+	@GetMapping("/getby/{CustomerId}")
+	public ResponseEntity<CustomerEnquiry> getSingle(@PathVariable ("CustomerId")int CustomerId )
+	{
+		CustomerEnquiry ce=csi.getSingleRecord(CustomerId);
+		
+		return new ResponseEntity<CustomerEnquiry>(ce,HttpStatus.OK);
+		
+		
+	}
 }
