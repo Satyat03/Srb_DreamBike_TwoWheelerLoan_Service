@@ -22,6 +22,8 @@ public interface CustomerServiceI {
 
 	public CustomerEnquiry getSingleRecord(int customerId);
 
+	public List<String> getDataByStatus(String status);
+
 
 
 }

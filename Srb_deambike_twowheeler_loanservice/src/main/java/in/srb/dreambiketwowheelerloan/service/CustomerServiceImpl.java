@@ -1,6 +1,9 @@
 package in.srb.dreambiketwowheelerloan.service;
 
 
+import java.util.List;
+
+
 import java.util.Optional;
 
 
@@ -160,6 +163,16 @@ public class CustomerServiceImpl implements CustomerServiceI {
 	@Override
 	public CustomerEnquiry updateCibilStatus(CustomerEnquiry customer) {
 		return cr.save(customer);
+	}
+
+	@Override
+	public List<String> getDataByStatus(String status)
+	{
+		List<String> op=cr.findAllByStatus(status);
+		
+			
+		
+		return op;
 	}
 
 }

@@ -96,7 +96,20 @@ public class CustomerController {
 		
 		
 	}
-	
+
+	@GetMapping("/getStatus/{status}")
+	public ResponseEntity<List<String>> getEnquirystatus(@PathVariable ("status")String status)
+	{
+		List<String> ce=csi.getDataByStatus(status);
+		
+		return new ResponseEntity<List<String>>(ce, HttpStatus.ACCEPTED);
+		
+		
+		
+		
+		
+	}
+
 	@PostMapping("/email")
 	public String sendMail(@RequestBody EmailSender e)
 	{
@@ -109,6 +122,7 @@ public class CustomerController {
 		return "email send";
 		}
 	}
+
 
 
 
