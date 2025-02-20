@@ -48,7 +48,7 @@ public class CibilController {
         }
 		
 		c.setCibilScoreDataTime(new Date());
-		System.out.println(c);
+		//System.out.println(c);
 
 		return new ResponseEntity<Cibil>(c,HttpStatus.CREATED);
 	}
