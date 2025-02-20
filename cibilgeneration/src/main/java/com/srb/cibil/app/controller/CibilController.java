@@ -15,8 +15,6 @@ import com.srb.cibil.app.model.Cibil;
 @RestController
 public class CibilController {
 
-	
-
 	@GetMapping("/{cibilid}")
 	public ResponseEntity<Cibil> generateCibilScore(@PathVariable ("cibilid")int cibilid) {
 
