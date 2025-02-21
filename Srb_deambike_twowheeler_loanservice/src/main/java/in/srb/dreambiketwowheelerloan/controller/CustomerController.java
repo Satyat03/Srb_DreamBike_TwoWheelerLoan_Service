@@ -1,4 +1,4 @@
-package in.srb.dreambiketwowheelerloan.controller;
+ package in.srb.dreambiketwowheelerloan.controller;
 
 import java.util.List;
 
@@ -41,18 +41,17 @@ public class CustomerController {
 	@PostMapping("/add")
 	public ResponseEntity<String> createCustomer(@RequestBody CustomerEnquiry cs) 
 	{
-		
-		String cibilurl="http://localhost:1001/"+cs.getCi().getCibilid();
-		Cibil cibilscore= rs.getForObject(cibilurl, Cibil.class);
-		//System.out.println(cibilscore);
-		
-		
-		cs.setCi(cibilscore);
-		
-		
+		cs.setEnquiryStatus("Pending");	
+//		String cibilurl="http://localhost:1001/cibil/"+cs.getCi().getCibilid();
+//		Cibil cibilscore= rs.getForObject(cibilurl, Cibil.class);
+//		//System.out.println(cibilscore);
+	
+//		cs.setCi(cibilscore);
+//		
+//		
 		csi.savedata(cs);
 		
-		return new ResponseEntity<String>(HttpStatus.CREATED);
+		return new ResponseEntity<String>("Data Added Successfully !!",HttpStatus.CREATED);
 		
 	}
 
@@ -106,10 +105,7 @@ public class CustomerController {
 		
 		return new ResponseEntity<List<String>>(ce, HttpStatus.ACCEPTED);
 		
-		
-		
-		
-		
+	
 	}
 
 	@PostMapping("/email")

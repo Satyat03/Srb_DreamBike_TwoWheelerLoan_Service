@@ -1,5 +1,7 @@
 package in.srb.dreambiketwowheelerloan.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +31,8 @@ public class CustomerEnquiry {
 	@Column(name="adharcard",length=12,nullable=false,unique=true)
 	private String adharcard;
 	
+	@Column(name="Enquiry Status")
+	private String enquiryStatus;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Cibil ci;
