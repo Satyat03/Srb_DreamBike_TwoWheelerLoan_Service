@@ -98,13 +98,11 @@ public class CustomerController {
 		
 	}
 
-	@GetMapping("/getStatus/{status}")
-	public ResponseEntity<List<String>> getEnquirystatus(@PathVariable ("status")String status)
+	@GetMapping("/getStatus/{enquiryStatus}")
+	public ResponseEntity<List<CustomerEnquiry>> getEnquirystatus(@PathVariable ("enquiryStatus")String enquiryStatus)
 	{
-		List<String> ce=csi.getDataByStatus(status);
-		
-		return new ResponseEntity<List<String>>(ce, HttpStatus.ACCEPTED);
-		
+		List<CustomerEnquiry> status = csi.getDataByStatus(enquiryStatus);
+		return new ResponseEntity<List<CustomerEnquiry>>(status,HttpStatus.OK);
 	
 	}
 

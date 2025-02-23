@@ -14,9 +14,13 @@ import in.srb.dreambiketwowheelerloan.model.CustomerEnquiry;
 @Repository
 public interface CustomerRepo extends JpaRepository<CustomerEnquiry, Integer> {
 
-	@Query("SELECT ci.status FROM CustomerEnquiry where ci.status= :status")
-	List<String> findAllByStatus(@Param("status") String status);
+//	@Query("SELECT ci.status FROM CustomerEnquiry where ci.status= :status")
+//	List<String> findAllByStatus(@Param("status") String status);
 
+	 // Custom query to find enquiries with status 'Pending'
+    @Query("SELECT ce FROM CustomerEnquiry ce WHERE ce.enquiryStatus = 'Pending'")
+    public List<CustomerEnquiry> findPendingEnquiries();
+}
 	
 
-}
+

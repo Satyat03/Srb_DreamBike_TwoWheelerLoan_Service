@@ -166,13 +166,10 @@ public class CustomerServiceImpl implements CustomerServiceI {
 	}
 
 	@Override
-	public List<String> getDataByStatus(String status)
+	public List<CustomerEnquiry> getDataByStatus(String enquiryStatus)
 	{
-		List<String> op=cr.findAllByStatus(status);
-		
-			
-		
-		return op;
+		List<CustomerEnquiry> pendingEnquiries = cr.findPendingEnquiries();
+		return pendingEnquiries;
 	}
 
 }
