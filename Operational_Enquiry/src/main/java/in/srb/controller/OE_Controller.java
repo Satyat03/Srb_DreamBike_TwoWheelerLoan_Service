@@ -34,117 +34,63 @@ public class OE_Controller {
 		return "success";
 		
 	}
-//	@GetMapping("/cibil")
-//	public List<CustomerEnquiry> cibilGenerate(CustomerEnquiry cs){
-//		
-//		String statusCheck="http://localhost:1000/customer/getStatus/Pending";
-//		List<CustomerEnquiry> pc = rt.getForObject(statusCheck,List.class);
-//		for(CustomerEnquiry ce:pc) {
-//			String cibilurl="http://localhost:1001/cibil/"+cs.getCi().getCibilid();
-//			
-//			Cibil[] cibilscore= rt.getForObject(cibilurl, Cibil[].class);
-//		
-//			cs.setCi(cibilscore);
-//			 // Update enquiry status after CIBIL generation
-//	        cs.setEnquiryStatus("Completed");
-//	       
-//	        // Save updated CustomerEnquiry (assuming csi.savedata() handles this)
-//	        List<CustomerEnquiry> list = oei.savedata(cs);
-//	       
-//			
-//		}
-//return null;       
-//		
-//	}
-	
-//	@GetMapping("/cibil")
-//    public List<CustomerEnquiry> cibilGenerate(CustomerEnquiry cs) {
-//        String statusCheck = "http://localhost:1000/customer/getStatus/Pending";
-//
-//        // Use ObjectMapper to map LinkedHashMap to CustomerEnquiry
-//        List<CustomerEnquiry> customerEnquiries = new ArrayList<>();
-//        try {
-//            ObjectMapper mapper = new ObjectMapper();
-//            List<?> rawList = rt.getForObject(statusCheck, List.class);
-//
-//            for (Object item : rawList) {
-//                CustomerEnquiry enquiry = mapper.convertValue(item, CustomerEnquiry.class);
-//                customerEnquiries.add(enquiry);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // Handle mapping exceptions
-//            return null;
-//        }
-//
-//        for (CustomerEnquiry ce : customerEnquiries) {
-//            String cibilUrl = "http://localhost:1001/cibil/" + ce.getCi().getCibilid();
-//
-//            // Fetch CIBIL score as an array
-//            Cibil[] cibilScores = rt.getForObject(cibilUrl, Cibil[].class);
-//
-//            if (cibilScores != null && cibilScores.length > 0) {
-//                ce.setCi(cibilScores[0]); // Assuming you need only the first CIBIL object
-//            }
-//
-//            // Update enquiry status after CIBIL generation
-//            ce.setEnquiryStatus("Completed");
-//
-//            // Save updated CustomerEnquiry
-//            oei.savedata(ce);
-//        }
-//
-//        return customerEnquiries; // Return the updated list
-//    }
-	
-	
-	
-	@GetMapping("/cibil")
-	public List<CustomerEnquiry> cibilGenerate(CustomerEnquiry cs) {
-	    String statusCheck = "http://localhost:1000/customer/getStatus/Pending";
 
-	    // Use ObjectMapper to map LinkedHashMap to CustomerEnquiry
+ 
+	
+	@GetMapping("/cibilgen")
+	public ResponseEntity<?> cibilGenerate() {
+	    String statusCheckUrl = "http://localhost:1000/customer/getStatus/Pending";
 	    List<CustomerEnquiry> customerEnquiries = new ArrayList<>();
+
 	    try {
+	        // Fetch pending enquiries
 	        ObjectMapper mapper = new ObjectMapper();
-	        List<?> rawList = rt.getForObject(statusCheck, List.class);
+	        List<?> rawList = rt.getForObject(statusCheckUrl, List.class);
+
+	        if (rawList == null || rawList.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No pending customer enquiries found.");
+	        }
 
 	        for (Object item : rawList) {
 	            CustomerEnquiry enquiry = mapper.convertValue(item, CustomerEnquiry.class);
-	            customerEnquiries.add(enquiry);
+	            if (enquiry != null && enquiry.getCi() != null) {
+	                customerEnquiries.add(enquiry);
+	            } else {
+	                // Log and skip invalid entries
+	                System.err.println("Skipping invalid CustomerEnquiry: " + item);
+	            }
 	        }
 	    } catch (Exception e) {
+	        // Log error and return appropriate response
 	        e.printStackTrace();
-	        // Handle mapping exceptions
-	        return null;
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	            .body("Error fetching customer enquiries: " + e.getMessage());
 	    }
 
+	    // Process each customer enquiry
 	    for (CustomerEnquiry ce : customerEnquiries) {
-	        if (ce.getCi() == null) {
-	            System.err.println("Skipping CustomerEnquiry with null 'ci' field.");
-	            continue; // Skip entries without a 'ci' field
+	        try {
+	            String cibilUrl = "http://localhost:1001/cibil/" + ce.getCi().getCibilid();
+
+	            // Fetch CIBIL scores
+	            Cibil cibilscore= rt.getForObject(cibilUrl, Cibil.class);
+	            ce.setCi(cibilscore);
+
+	            // Update enquiry status
+	            ce.setEnquiryStatus("Completed");
+
+	            // Save updated entry
+	            oei.savedata(ce);
+	        } catch (Exception e) {
+	            System.err.println("Error processing CustomerEnquiry: " + ce);
+	            e.printStackTrace();
 	        }
-
-	        String cibilUrl = "http://localhost:1001/cibil/" + ce.getCi().getCibilid();
-
-	        // Fetch CIBIL score as an array
-	        Cibil[] cibilScores = rt.getForObject(cibilUrl, Cibil[].class);
-
-	        if (cibilScores != null && cibilScores.length > 0) {
-	            ce.setCi(cibilScores[0]); // Assuming you need only the first CIBIL object
-	        } else {
-	            System.err.println("No CIBIL scores found for Cibil ID: " + ce.getCi().getCibilid());
-	            continue;
-	        }
-
-	        // Update enquiry status after CIBIL generation
-	        ce.setEnquiryStatus("Completed");
-
-	        // Save updated CustomerEnquiry
-	        oei.savedata(ce);
 	    }
 
-	    return customerEnquiries; // Return the updated list
+	    // Return updated list
+	    return ResponseEntity.ok(customerEnquiries);
 	}
+
 
 }
