@@ -1,5 +1,6 @@
  package in.srb.dreambiketwowheelerloan.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,22 @@ public class CustomerController {
 		}
 		return "email send";
 		}
+	
+	@GetMapping("/approved")
+	public ResponseEntity<List<CustomerEnquiry>> approvedCustomer(){
+		List<CustomerEnquiry> approvedStatus = csi.findApprovedStatus();
+		
+		return new ResponseEntity<List<CustomerEnquiry>>(approvedStatus,HttpStatus.FOUND);
+		
+	}
+	@GetMapping("/rejected")
+	public ResponseEntity<List<CustomerEnquiry>> rejectedCustomer(){
+		List<CustomerEnquiry> rs = csi.findRejectedStatus();
+		
+		return new ResponseEntity<List<CustomerEnquiry>>(rs,HttpStatus.FOUND);
+		
+	}
+	
 	}
 
 
