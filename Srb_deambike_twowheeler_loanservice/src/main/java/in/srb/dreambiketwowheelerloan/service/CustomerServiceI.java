@@ -26,7 +26,6 @@ public interface CustomerServiceI {
 
     public List<CustomerEnquiry> findApprovedStatus();
 
-
-	public List<CustomerEnquiry> findRejectedStatus();
+    public List<CustomerEnquiry> findRejectedStatus();
 
 }
