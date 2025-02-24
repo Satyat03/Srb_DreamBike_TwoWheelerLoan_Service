@@ -78,7 +78,7 @@ public class OE_Controller {
 	            ce.setCi(cibilscore);
 
 	            // Update enquiry status
-	            ce.setEnquiryStatus("Completed");
+	            ce.setEnquiryStatus(ce.getCi().getStatus());
 
 	            // Save updated entry
 	            oei.savedata(ce);
