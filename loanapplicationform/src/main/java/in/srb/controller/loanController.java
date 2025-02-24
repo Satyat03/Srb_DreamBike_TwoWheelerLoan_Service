@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
@@ -37,9 +39,18 @@ public class loanController {
 	{
 		return "success";
 	}
-	
+	 
 	@PostMapping("/addData/{CustomerId}")
-	public ResponseEntity<Customer> applicationForm(@RequestBody Customer c,@PathVariable Integer CustomerId){
+	public ResponseEntity<Customer> applicationForm(@RequestPart ("info") String jsonData,
+			@PathVariable("CustomerId") Integer CustomerId,
+			@RequestPart("addressProof") MultipartFile addressProof,
+			@RequestPart("panCard") MultipartFile panCard,
+			@RequestPart("incomeTax") MultipartFile incomeTax,
+			@RequestPart("addharCard") MultipartFile addharCard,
+			@RequestPart("photo") MultipartFile photo,
+			@RequestPart("signature") MultipartFile signature,
+			@RequestPart("bankCheque") MultipartFile bankCheque,
+			@RequestPart("salarySlips") MultipartFile salarySlips){
 		
 		
 		String urlAprroed="http://localhost:1000/customer/approved";
@@ -49,6 +60,7 @@ public class loanController {
 		
 		 CustomerEnquiry[] o = rt.getForObject(urlAprroed, CustomerEnquiry[].class);
 		 
+		 Customer c=new Customer();
 		 List<CustomerEnquiry> body = Arrays.asList(o);
 		
 		
@@ -66,9 +78,9 @@ public class loanController {
 				c.setCustomerAdharCard(ce.getAdharcard());
 				c.setCustomerPanCard(ce.getPancardno());
 				c.setCibilScore(ce.getCi());
-				Customer save =lsi.saveData(c);
+				//System.out.println(jsonData);
+				Customer save =lsi.saveData(jsonData,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
 				
-				return new ResponseEntity<Customer>(save,HttpStatus.CREATED);
 				
 }
 			

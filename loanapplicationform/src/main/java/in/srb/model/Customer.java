@@ -35,23 +35,7 @@ public class Customer {
     private Double customerTotalLoanRequired;
     private String loanStatus; // Values: Submit, verified, sanctioned, disbursed
 
-  
-   
-//    {
-//    	 "customerDateOfBirth":"18/11/1998",
-//    	 "customerGender":"Male",
-//    	 "customerAmountPaidForBike":85858.5,
-//    	 "customerTotalLoanRequired":40000.5,
-//    	 "loanStatus":"Submitted"
-//    }    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     
     // Relationships
     @OneToOne(cascade = CascadeType.ALL)
