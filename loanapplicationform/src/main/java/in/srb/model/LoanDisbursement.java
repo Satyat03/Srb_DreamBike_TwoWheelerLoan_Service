@@ -25,5 +25,20 @@ public class LoanDisbursement {
     private String amountPaidDate;
 
     // Getters and Setters
+      
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 

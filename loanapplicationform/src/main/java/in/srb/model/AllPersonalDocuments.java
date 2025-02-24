@@ -20,4 +20,10 @@ public class AllPersonalDocuments {
     private byte[] signature;
     private byte[] bankCheque;
     private byte[] salarySlips;
+    
+    
+
+
+    
+    
 }
