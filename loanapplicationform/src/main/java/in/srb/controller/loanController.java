@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
 import in.srb.service.LoanServiceI;
@@ -39,9 +43,11 @@ public class loanController {
 	{
 		return "success";
 	}
+	
+	ObjectMapper mapper=new ObjectMapper();
 	 
 	@PostMapping("/addData/{CustomerId}")
-	public ResponseEntity<Customer> applicationForm(@RequestPart ("info") String jsonData,
+	public ResponseEntity<Customer> applicationForm(@RequestPart ("json") String jsonData,
 			@PathVariable("CustomerId") Integer CustomerId,
 			@RequestPart("addressProof") MultipartFile addressProof,
 			@RequestPart("panCard") MultipartFile panCard,
@@ -50,7 +56,7 @@ public class loanController {
 			@RequestPart("photo") MultipartFile photo,
 			@RequestPart("signature") MultipartFile signature,
 			@RequestPart("bankCheque") MultipartFile bankCheque,
-			@RequestPart("salarySlips") MultipartFile salarySlips){
+			@RequestPart("salarySlips") MultipartFile salarySlips) throws JsonMappingException, JsonProcessingException{
 		
 		
 		String urlAprroed="http://localhost:1000/customer/approved";
@@ -60,7 +66,8 @@ public class loanController {
 		
 		 CustomerEnquiry[] o = rt.getForObject(urlAprroed, CustomerEnquiry[].class);
 		 
-		 Customer c=new Customer();
+	
+		Customer c = mapper.readValue(jsonData, Customer.class);
 		 List<CustomerEnquiry> body = Arrays.asList(o);
 		
 		
@@ -79,9 +86,9 @@ public class loanController {
 				c.setCustomerPanCard(ce.getPancardno());
 				c.setCibilScore(ce.getCi());
 				//System.out.println(jsonData);
-				Customer save =lsi.saveData(jsonData,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
+				Customer save =lsi.saveData(c,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
 				
-				
+				return new ResponseEntity<Customer>(save,HttpStatus.CREATED);
 }
 			
 		}
