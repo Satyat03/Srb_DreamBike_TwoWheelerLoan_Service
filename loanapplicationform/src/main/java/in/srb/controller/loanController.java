@@ -23,7 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+<<<<<<< HEAD
 import com.thoughtworks.xstream.mapper.Mapper;
+=======
+>>>>>>> branch 'Bhavishya' of https://github.com/Satyat03/Srb_DreamBike_TwoWheelerLoan_Service.git
 
 import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
@@ -44,9 +47,15 @@ public class loanController {
 	{
 		return "success";
 	}
+<<<<<<< HEAD
 
 	ObjectMapper mapper=new ObjectMapper(); 
 	
+=======
+	
+	ObjectMapper mapper=new ObjectMapper();
+	 
+>>>>>>> branch 'Bhavishya' of https://github.com/Satyat03/Srb_DreamBike_TwoWheelerLoan_Service.git
 	@PostMapping("/addData/{CustomerId}")
 	public ResponseEntity<Customer> applicationForm(@RequestPart ("json") String jsonData,
 			@PathVariable("CustomerId") Integer CustomerId,
@@ -58,7 +67,10 @@ public class loanController {
 			@RequestPart("signature") MultipartFile signature,
 			@RequestPart("bankCheque") MultipartFile bankCheque,
 			@RequestPart("salarySlips") MultipartFile salarySlips) throws JsonMappingException, JsonProcessingException{
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'Bhavishya' of https://github.com/Satyat03/Srb_DreamBike_TwoWheelerLoan_Service.git
 		
 		
 		String urlAprroed="http://localhost:1000/customer/approved";
@@ -68,9 +80,14 @@ public class loanController {
 		
 		 CustomerEnquiry[] o = rt.getForObject(urlAprroed, CustomerEnquiry[].class);
 		 
+<<<<<<< HEAD
 		 //Customer c=new Customer();
 		 
 		 
+=======
+	
+		Customer c = mapper.readValue(jsonData, Customer.class);
+>>>>>>> branch 'Bhavishya' of https://github.com/Satyat03/Srb_DreamBike_TwoWheelerLoan_Service.git
 		 List<CustomerEnquiry> body = Arrays.asList(o);
 		
 		
@@ -90,7 +107,11 @@ public class loanController {
 				c.setCustomerPanCard(ce.getPancardno());
 				c.setCibilScore(ce.getCi());
 				//System.out.println(jsonData);
+<<<<<<< HEAD
 				Customer save =lsi.saveData(c,addressProof,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
+=======
+				Customer save =lsi.saveData(c,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
+>>>>>>> branch 'Bhavishya' of https://github.com/Satyat03/Srb_DreamBike_TwoWheelerLoan_Service.git
 				
 				return new ResponseEntity<Customer>(save,HttpStatus.CREATED);
 }
