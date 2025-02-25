@@ -85,6 +85,8 @@ public class loanController {
 				c.setCustomerAdharCard(ce.getAdharcard());
 				c.setCustomerPanCard(ce.getPancardno());
 				c.setCibilScore(ce.getCi());
+				
+				c.setLoanStatus("Submitted");
 				//System.out.println(jsonData);
 				Customer save =lsi.saveData(c,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
 				
@@ -95,6 +97,13 @@ public class loanController {
 		return null;
 		
 		
+		
+	}
+	
+	@GetMapping("/getAllCustomer/{loanStatus}")
+	public List<Customer> getAllSubmitted(@PathVariable String loanStatus) {
+		List<Customer> customer=lsi.getAllCustomer(loanStatus);
+		return customer;
 		
 	}
 	

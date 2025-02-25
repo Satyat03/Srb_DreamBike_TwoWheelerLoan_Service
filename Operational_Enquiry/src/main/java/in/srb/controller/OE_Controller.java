@@ -91,6 +91,17 @@ public class OE_Controller {
 	    // Return updated list
 	    return ResponseEntity.ok(customerEnquiries);
 	}
+	
+	@GetMapping("/getAllSubmitted")
+	public ResponseEntity<List<?>>  getAllCustomerSubmitted(){
+		String loanUrl="http://bhavishya--pc:1003/loan/getAllCustomer/Submitted";
+		
+		List list = rt.getForObject(loanUrl,List.class);
+		return new ResponseEntity<List<?>>(list,HttpStatus.ACCEPTED);
+		
+		
+	}
+	
 
 
 }
