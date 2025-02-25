@@ -94,7 +94,7 @@ public class OE_Controller {
 	
 	@GetMapping("/getAllSubmitted")
 	public ResponseEntity<List<?>>  getAllCustomerSubmitted(){
-		String loanUrl="http://bhavishya--pc:1003/loan/getAllCustomer/Submitted";
+		String loanUrl="http://localhost:1003/loan/getAllCustomer/Submitted";
 		
 		List list = rt.getForObject(loanUrl,List.class);
 		return new ResponseEntity<List<?>>(list,HttpStatus.ACCEPTED);
