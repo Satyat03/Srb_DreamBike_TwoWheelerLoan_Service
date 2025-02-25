@@ -9,6 +9,6 @@ public interface LoanServiceI {
 	//public Customer saveData(Customer c);
 
 	public Customer saveData(Customer c, MultipartFile panCard, MultipartFile incomeTax, MultipartFile addharCard,
-			MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips);
+			MultipartFile addressProof,MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips);
 
 }

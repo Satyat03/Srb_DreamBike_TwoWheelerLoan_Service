@@ -28,18 +28,22 @@ public class loanServiceImpl implements LoanServiceI {
 
 	@Override
 	public Customer saveData(Customer c, MultipartFile panCard, MultipartFile incomeTax, MultipartFile addharCard,
-			MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips) {
+			MultipartFile addressProof,MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips) {
 
 		AllPersonalDocuments pd = new AllPersonalDocuments();
 
 		try {
 			byte[] incometax = incomeTax.getBytes();
+			byte[] addr = addressProof.getBytes();
 			byte[] pancard = panCard.getBytes();
 			byte[] adharcard = addharCard.getBytes();
 			byte[] sig = signature.getBytes();
 			byte[] check = bankCheque.getBytes();
 			byte[] slip = salarySlips.getBytes();
+			byte[] img = photo.getBytes();
 
+			pd.setPhoto(img);
+			pd.setAddressProof(addr);
 			pd.setPanCard(pancard);
 			pd.setIncomeTax(incometax);
 			pd.setAddharCard(adharcard);

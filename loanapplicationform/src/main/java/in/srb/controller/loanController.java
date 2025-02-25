@@ -86,7 +86,7 @@ public class loanController {
 				c.setCustomerPanCard(ce.getPancardno());
 				c.setCibilScore(ce.getCi());
 				//System.out.println(jsonData);
-				Customer save =lsi.saveData(c,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
+				Customer save =lsi.saveData(c,addressProof,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
 				
 				return new ResponseEntity<Customer>(save,HttpStatus.CREATED);
 }
