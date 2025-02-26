@@ -1,10 +1,13 @@
 package in.cm.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
+@Entity
 public class Ledger {
-
+	@Id
     private Integer ledgerId;
     private String ledgerCreatedDate;
     private Double totalLoanAmount;

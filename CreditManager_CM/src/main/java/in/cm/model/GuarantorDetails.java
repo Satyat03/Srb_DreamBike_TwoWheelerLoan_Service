@@ -1,11 +1,13 @@
 package in.cm.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-
+@Entity
 public class GuarantorDetails {
-	
+	@Id
     private Integer guarantorId;
     private String guarantorName;
     private String guarantorDateOfBirth;
