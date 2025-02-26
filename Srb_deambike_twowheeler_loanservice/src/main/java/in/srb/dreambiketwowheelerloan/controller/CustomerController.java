@@ -78,7 +78,7 @@ public class CustomerController {
 	}
 	
 	@PutMapping("updateCibilStatus/{CustomerId}")
-	public ResponseEntity<CustomerEnquiry> updateCibilStatus(@PathVariable int CustomerId){
+	public ResponseEntity<CustomerEnquiry> updateCibilStatus(@PathVariable ("CustomerId")int CustomerId){
 		CustomerEnquiry customer=csi.getCustomer(CustomerId);
 		String cibilurl="http://localhost:1001/cibil/"+customer.getCi().getCibilid();
 		Cibil cibil= rs.getForObject(cibilurl, Cibil.class);

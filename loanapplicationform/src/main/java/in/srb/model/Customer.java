@@ -10,10 +10,12 @@ import jakarta.persistence.Id;
 
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @Entity
-
+@NoArgsConstructor
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -25,7 +27,9 @@ public class Customer {
     private Integer customerAge;
     private String customerAdditionalMobileNumber;
     private String customerEmail;
+    
     private String customerAdharCard;
+    
     private String customerPanCard;
     
     
