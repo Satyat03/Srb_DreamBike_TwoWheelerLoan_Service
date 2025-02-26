@@ -1,11 +1,14 @@
 package in.cm.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-
+@Entity
 public class PermanentAddress {
 
+	@Id
     private Integer permanentAddressId;
     private String areaName;
     private String cityName;

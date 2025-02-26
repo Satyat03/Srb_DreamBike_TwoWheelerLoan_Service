@@ -1,5 +1,7 @@
 package in.srb.model;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +14,7 @@ public class SanctionLetter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int sanctionId;
-    private String sanctionDate;
+    private Date sanctionDate;
     private String applicantName;
     private Double contactDetails;
     private String productHomeEquity;
@@ -27,5 +29,10 @@ public class SanctionLetter {
     private String status;
 
     // Getters and Setters
+    
+//    {
+//    	"sanctionDate"
+//    	
+//    }
 }
 

@@ -1,17 +1,25 @@
 package in.cm.model;
 
 
+import java.util.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-
+@Entity
 public class SanctionLetter {
 	
+	@Id
+	
     private int sanctionId;
-    private String sanctionDate;
+    private Date sanctionDate;
     private String applicantName;
-    private Double contactDetails;
-    private String productHomeEquity;
+    private String contactDetails;
+    private double loanRequired;
     private Double loanAmtSanctioned;
     private String interestType;
     private float rateOfInterest;
@@ -23,5 +31,9 @@ public class SanctionLetter {
     private String status;
 
     // Getters and Setters
+    
+//    {
+//    	"loanTenureInYear":2
+//    }
 }
 
