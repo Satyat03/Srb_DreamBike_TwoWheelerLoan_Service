@@ -24,6 +24,8 @@ public interface CustomerServiceI {
 
 	public List<CustomerEnquiry> getDataByStatus(String enquiryStatus);
 
+    public List<CustomerEnquiry> findApprovedStatus();
 
+    public List<CustomerEnquiry> findRejectedStatus();
 
 }

@@ -19,5 +19,18 @@ public class AccountDetails {
     private Long accountNumber;
 
     // Getters and Setters
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 

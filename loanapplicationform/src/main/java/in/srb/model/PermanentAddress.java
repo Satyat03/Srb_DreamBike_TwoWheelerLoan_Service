@@ -20,6 +20,9 @@ public class PermanentAddress {
     private Integer houseNumber;
     private String streetName;
 
+
+    
+    
     // Getters and Setters
 }
 

@@ -20,5 +20,8 @@ public class LocalAddress {
     private Integer houseNumber;
     private String streetName;
 
+
+    
+    
     // Getters and Setters
 }

@@ -172,4 +172,16 @@ public class CustomerServiceImpl implements CustomerServiceI {
 		return pendingEnquiries;
 	}
 
+	@Override
+	public List<CustomerEnquiry> findApprovedStatus() {
+		List<CustomerEnquiry> approved = cr.findApproved();
+		return approved;
+	}
+
+	@Override
+	public List<CustomerEnquiry> findRejectedStatus() {
+		List<CustomerEnquiry> rejected = cr.findRejected();
+		return rejected;
+	}
+
 }

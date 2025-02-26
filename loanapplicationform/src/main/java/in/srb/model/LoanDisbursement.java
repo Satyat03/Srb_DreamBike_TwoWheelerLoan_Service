@@ -1,5 +1,7 @@
 package in.srb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,6 +10,7 @@ import lombok.Data;
 
 @Data
 @Entity
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class LoanDisbursement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -18,12 +21,27 @@ public class LoanDisbursement {
     private Double totalAmount;
     private String bankName;
     private Long accountNumber;
-    private String IFSCCode;
+    private String ifsccode;
     private String accountType;
     private Double transferAmount;
     private String paymentStatus;
     private String amountPaidDate;
 
     // Getters and Setters
+      
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 

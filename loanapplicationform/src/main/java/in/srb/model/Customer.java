@@ -1,31 +1,42 @@
 package in.srb.model;
 
+import org.hibernate.annotations.DialectOverride.Version;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
 @Entity
+
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer customerId;
+	
+    private Integer CustomerId;
+	
     private String customerName;
-    private String customerDateOfBirth;
+    private String customerMobileNumber;
     private Integer customerAge;
-    private String customerGender;
+    private String customerAdditionalMobileNumber;
     private String customerEmail;
-    private Double customerMobileNumber;
-    private Double customerAdditionalMobileNumber;
-    private Double customerAmountPaidForHome;
+    private String customerAdharCard;
+    private String customerPanCard;
+    
+    
+    private String customerDateOfBirth;
+    private String customerGender;
+    private Double customerAmountPaidForBike;
     private Double customerTotalLoanRequired;
     private String loanStatus; // Values: Submit, verified, sanctioned, disbursed
 
+ 
+    
     // Relationships
     @OneToOne(cascade = CascadeType.ALL)
     private AllPersonalDocuments allPersonalDocument;
@@ -33,8 +44,8 @@ public class Customer {
     private DependentInfo familyDependentInfo;
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private CustomerAddress customerAddress;
-    @OneToOne(cascade = CascadeType.ALL)// One-to-One
-    private MedicalInfo medicalInfo;
+//    @OneToOne(cascade = CascadeType.ALL)// One-to-One
+//    private MedicalInfo medicalInfo;
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private Cibil cibilScore;          
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One

@@ -20,7 +20,12 @@ public interface CustomerRepo extends JpaRepository<CustomerEnquiry, Integer> {
 	 // Custom query to find enquiries with status 'Pending'
     @Query("SELECT ce FROM CustomerEnquiry ce WHERE ce.enquiryStatus = 'Pending'")
     public List<CustomerEnquiry> findPendingEnquiries();
-}
-	
 
+    @Query("SELECT ce FROM CustomerEnquiry ce WHERE ce.enquiryStatus = 'Approved'")
+    public List<CustomerEnquiry> findApproved();
+	
+    @Query("SELECT ce FROM CustomerEnquiry ce WHERE ce.enquiryStatus = 'Rejected'")
+    public List<CustomerEnquiry> findRejected();
+	
+}
 

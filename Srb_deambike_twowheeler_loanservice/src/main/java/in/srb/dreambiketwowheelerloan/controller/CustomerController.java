@@ -1,4 +1,5 @@
- package in.srb.dreambiketwowheelerloan.controller;
+  package in.srb.dreambiketwowheelerloan.controller;
+
 
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class CustomerController {
 	@PutMapping("updateCibilStatus/{CustomerId}")
 	public ResponseEntity<CustomerEnquiry> updateCibilStatus(@PathVariable int CustomerId){
 		CustomerEnquiry customer=csi.getCustomer(CustomerId);
-		String cibilurl="http://localhost:1001/"+customer.getCi().getCibilid();
+		String cibilurl="http://localhost:1001/cibil/"+customer.getCi().getCibilid();
 		Cibil cibil= rs.getForObject(cibilurl, Cibil.class);
 		customer.setCi(cibil);
 		
@@ -117,6 +118,22 @@ public class CustomerController {
 		}
 		return "email send";
 		}
+	
+	@GetMapping("/approved")
+	public ResponseEntity<List<CustomerEnquiry>> approvedCustomer(){
+		List<CustomerEnquiry> approvedStatus = csi.findApprovedStatus();
+		
+		return new ResponseEntity<List<CustomerEnquiry>>(approvedStatus,HttpStatus.FOUND);
+		
+	}
+	@GetMapping("/rejected")
+	public ResponseEntity<List<CustomerEnquiry>> rejectedCustomer(){
+		List<CustomerEnquiry> rs = csi.findRejectedStatus();
+		
+		return new ResponseEntity<List<CustomerEnquiry>>(rs,HttpStatus.FOUND);
+		
+	}
+	
 	}
 
 

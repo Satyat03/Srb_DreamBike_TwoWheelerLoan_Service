@@ -19,4 +19,6 @@ public class CustomerAddress {
 	 private PermanentAddress permanentAddress; 
 	@OneToOne(cascade = CascadeType.ALL)// One-to-one relationship
 	 private LocalAddress localAddress;
+	
+
 }
