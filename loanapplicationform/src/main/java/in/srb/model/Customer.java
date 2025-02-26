@@ -1,4 +1,4 @@
-package in.srb.model;
+ package in.srb.model;
 
 import org.hibernate.annotations.DialectOverride.Version;
 
