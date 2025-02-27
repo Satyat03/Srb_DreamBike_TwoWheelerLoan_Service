@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import in.srb.model.Cibil;
+import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
 import in.srb.service.OEServiceI;
 
@@ -27,15 +28,6 @@ public class OE_Controller {
 	
 	@Autowired
 	OEServiceI oei;
-	
-	@GetMapping("/get")
-	public String get()
-	{
-		return "success";
-		
-	}
-
- 
 	
 	@GetMapping("/cibilgen")
 	public ResponseEntity<?> cibilGenerate() {
@@ -97,6 +89,14 @@ public class OE_Controller {
 		String loanUrl="http://localhost:1003/loan/getAllCustomer/Submitted";
 		
 		List list = rt.getForObject(loanUrl,List.class);
+		
+		List<Customer> updatedList = new ArrayList<>();
+		
+		for(Customer c:updatedList)
+		{
+			c.setLoanStatus("Verified");
+		}
+		
 		return new ResponseEntity<List<?>>(list,HttpStatus.ACCEPTED);
 		
 		

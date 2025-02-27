@@ -1,6 +1,5 @@
- package in.srb.model;
+package in.cm.model;
 
-import org.hibernate.annotations.DialectOverride.Version;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -16,7 +15,7 @@ import lombok.Data;
 
 public class Customer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	
     private Integer CustomerId;
 	
@@ -61,7 +60,7 @@ public class Customer {
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Ledger ledger;         
     @OneToOne(cascade = CascadeType.ALL)// One-to-Many
-    private SanctionLetter sanctionLetter;    
+    private SanctionLetter sl;    
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private CustomerVerification customerVerification; // One-to-One
 

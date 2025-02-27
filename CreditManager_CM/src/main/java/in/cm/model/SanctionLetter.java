@@ -1,4 +1,5 @@
-package in.srb.model;
+package in.cm.model;
+
 
 import java.util.Date;
 
@@ -11,13 +12,14 @@ import lombok.Data;
 @Data
 @Entity
 public class SanctionLetter {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	
     private int sanctionId;
     private Date sanctionDate;
     private String applicantName;
-    private Double contactDetails;
-    private String productHomeEquity;
+    private String contactDetails;
+    private double loanRequired;
     private Double loanAmtSanctioned;
     private String interestType;
     private float rateOfInterest;
@@ -31,8 +33,7 @@ public class SanctionLetter {
     // Getters and Setters
     
 //    {
-//    	"sanctionDate"
-//    	
+//    	"loanTenureInYear":2
 //    }
 }
 

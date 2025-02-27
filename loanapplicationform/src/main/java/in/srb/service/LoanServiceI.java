@@ -15,4 +15,5 @@ public interface LoanServiceI {
 
 	public List<Customer> getAllCustomer(String loanStatus);
 
+
 }

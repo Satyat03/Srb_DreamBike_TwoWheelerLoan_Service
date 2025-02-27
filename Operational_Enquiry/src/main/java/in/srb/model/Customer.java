@@ -1,4 +1,4 @@
- package in.srb.model;
+package in.srb.model;
 
 import org.hibernate.annotations.DialectOverride.Version;
 
@@ -11,12 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 
-@Data
-@Entity
 
+@Data
 public class Customer {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	
 	
     private Integer CustomerId;
 	
@@ -35,9 +33,7 @@ public class Customer {
     private Double customerTotalLoanRequired;
     private String loanStatus; // Values: Submit, verified, sanctioned, disbursed
 
- 
-    
-    // Relationships
+	// Relationships
     @OneToOne(cascade = CascadeType.ALL)
     private AllPersonalDocuments allPersonalDocument;
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
