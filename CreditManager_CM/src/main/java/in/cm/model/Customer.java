@@ -2,11 +2,9 @@ package in.cm.model;
 
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 
@@ -46,6 +44,7 @@ public class Customer {
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private MedicalInfo medicalInfo;
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
+    @Embedded
     private Cibil cibilScore;          
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private CurrentLoanDetails currentLoanDetails; 
