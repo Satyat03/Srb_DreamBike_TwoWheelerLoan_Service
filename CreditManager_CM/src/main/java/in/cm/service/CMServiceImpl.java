@@ -55,6 +55,8 @@ public class CMServiceImpl implements CMserviceI{
 		
 		c.getSl().setModeOfPayment("Online");
 		c.getSl().setStatus("Created");
+		
+		cmr.save(c);
 		}
 	}
 

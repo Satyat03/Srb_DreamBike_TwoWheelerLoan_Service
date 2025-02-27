@@ -12,7 +12,6 @@ import lombok.Data;
 
 @Data
 @Entity
-
 public class Customer {
 	@Id
 	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -45,8 +44,11 @@ public class Customer {
     private CustomerAddress customerAddress;
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private MedicalInfo medicalInfo;
+    
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private Cibil cibilScore;          
+    
+    
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private CurrentLoanDetails currentLoanDetails; 
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One

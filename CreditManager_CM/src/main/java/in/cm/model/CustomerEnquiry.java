@@ -2,8 +2,10 @@ package in.cm.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 
@@ -29,6 +31,7 @@ public class CustomerEnquiry {
 	//@Column(name="Enquiry Status")
 	private String enquiryStatus;
 	
+	@OneToOne(cascade = CascadeType.ALL)
 	private Cibil ci;
 	
 	
