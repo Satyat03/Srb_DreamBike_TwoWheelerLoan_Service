@@ -85,22 +85,25 @@ public class OE_Controller {
 	}
 	
 	@GetMapping("/getAllSubmitted")
-	public ResponseEntity<List<?>>  getAllCustomerSubmitted(){
-		String loanUrl="http://localhost:1003/loan/getAllCustomer/Submitted";
-		
-		List list = rt.getForObject(loanUrl,List.class);
-		
-		List<Customer> updatedList = new ArrayList<>();
-		
-		for(Customer c:updatedList)
-		{
-			c.setLoanStatus("Verified");
-		}
-		
-		return new ResponseEntity<List<?>>(list,HttpStatus.ACCEPTED);
-		
-		
+	public ResponseEntity<List<Customer>> getAllCustomerSubmitted() {
+	    String loanUrl = "http://localhost:1003/loan/getAllCustomer/Submitted";
+
+	    // Fetch the list of customers with loan status "Submitted"
+	    List<Customer> submittedCustomers = rt.getForObject(loanUrl, List.class);
+
+	    // Update loan status to "Verified" for all customers
+	    if (submittedCustomers != null && !submittedCustomers.isEmpty()) {
+	        for (Customer customer : submittedCustomers) {
+	            customer.setLoanStatus("Verified");
+	        }
+	    }
+
+	    // Return the updated list
+	    return new ResponseEntity<>(submittedCustomers, HttpStatus.OK);
+	
 	}
+	
+	
 	
 
 

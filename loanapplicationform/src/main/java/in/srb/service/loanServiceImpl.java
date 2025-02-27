@@ -52,7 +52,7 @@ public class loanServiceImpl implements LoanServiceI {
 			pd.setBankCheque(check);
 			pd.setSalarySlips(slip);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

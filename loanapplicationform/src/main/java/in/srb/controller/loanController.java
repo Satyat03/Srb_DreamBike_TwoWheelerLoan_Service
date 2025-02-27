@@ -62,8 +62,7 @@ public class loanController {
 		
 		String urlAprroed="http://localhost:1000/customer/approved";
 		
-//		List<CustomerEnquiry> body = rt.exchange(urlAprroed, HttpMethod.GET,null,new ParameterizedTypeReference<List<CustomerEnquiry>>() {
-//		}).getBody();
+
 		
 		 CustomerEnquiry[] o = rt.getForObject(urlAprroed, CustomerEnquiry[].class);
 		 

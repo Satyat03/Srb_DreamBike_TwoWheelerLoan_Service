@@ -14,7 +14,7 @@ import lombok.Data;
 public class SanctionLetter {
 	
 	@Id
-	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int sanctionId;
     private Date sanctionDate;
     private String applicantName;
