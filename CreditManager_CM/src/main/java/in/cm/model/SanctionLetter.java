@@ -24,7 +24,7 @@ public class SanctionLetter {
     private String interestType;
     private float rateOfInterest;
     private int loanTenureInYear;
-    private Double monthlyEmiAmount;
+    private double monthlyEmiAmount;
     private String modeOfPayment;
     private String remarks;
     private String termsCondition;
