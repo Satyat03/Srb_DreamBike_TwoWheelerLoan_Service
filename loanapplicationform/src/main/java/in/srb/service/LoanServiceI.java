@@ -15,5 +15,7 @@ public interface LoanServiceI {
 
 	public List<Customer> getAllCustomer(String loanStatus);
 
+	public Customer getCustomer(String username, String password);
+
 
 }

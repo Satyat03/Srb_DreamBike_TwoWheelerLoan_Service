@@ -1,7 +1,9 @@
 package in.srb.service;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,5 +70,29 @@ public class loanServiceImpl implements LoanServiceI {
 		
 		return lr.findAllByLoanStatus(loanStatus);
 	}
+
+	@Override
+	public Customer getCustomer(String username, String password) {
+	    Optional<Customer> optionalCustomer = lr.findByUsername(username);
+
+	    if (optionalCustomer.isEmpty()) {
+	    	//Need to create custom exception class
+	        throw new IllegalArgumentException("Your username is incorrect.");
+	    }
+
+	    Customer customer = optionalCustomer.get();
+
+	    if (!password.equals( customer.getPassword())) {
+	        throw new IllegalArgumentException("Your password is incorrect.");
+	    
+    }
+
+	    customer.setLoanStatus("Sanctioned");
+	    customer.getSl().setStatus("Accepted");
+
+	    return lr.save(customer);
+	    
+	}
+
 
 }

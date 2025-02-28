@@ -18,7 +18,7 @@ public class CMServiceImpl implements CMserviceI{
 	
 	
 	@Override
-	public void updateSanction(int customerId, Customer cs) {
+	public Customer updateSanction(int customerId, Customer cs) {
 		
 //		cmr.save(cs);
 //		
@@ -125,7 +125,7 @@ public class CMServiceImpl implements CMserviceI{
 	            c.getSl().setLoanTenureInYear(cs.getSl().getLoanTenureInYear());
 
 	            // Save updated customer details in the database
-	            cmr.save(c);
+	            return cmr.save(c);
 	            
 	        } else {
 	            throw new IllegalArgumentException("Customer not found with ID: " + customerId);

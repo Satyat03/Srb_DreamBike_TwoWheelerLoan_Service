@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
 import in.srb.service.LoanServiceI;
+import jakarta.ws.rs.PUT;
 
 @RestController
 @RequestMapping("/loan")
@@ -106,6 +107,14 @@ public class loanController {
 		return customer;
 		
 	}
+	
+	@GetMapping("/customerLogin/{username}/{password}")
+	public Customer customerLogin(@PathVariable("username") String username,@PathVariable("password") String password ) {
+		Customer customer=lsi.getCustomer(username,password);
+	 return customer;
+		
+	}
+	
 	
 	
 	

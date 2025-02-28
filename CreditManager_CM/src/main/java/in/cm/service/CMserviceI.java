@@ -4,6 +4,6 @@ import in.cm.model.Customer;
 
 public interface CMserviceI {
  
-	public void updateSanction(int customerId, Customer cs);
+	public Customer updateSanction(int customerId, Customer cs);
 
 }
