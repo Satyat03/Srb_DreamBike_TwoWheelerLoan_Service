@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -61,8 +62,7 @@ public class loanController {
 		
 		String urlAprroed="http://localhost:1000/customer/approved";
 		
-//		List<CustomerEnquiry> body = rt.exchange(urlAprroed, HttpMethod.GET,null,new ParameterizedTypeReference<List<CustomerEnquiry>>() {
-//		}).getBody();
+
 		
 		 CustomerEnquiry[] o = rt.getForObject(urlAprroed, CustomerEnquiry[].class);
 		 
@@ -85,6 +85,8 @@ public class loanController {
 				c.setCustomerAdharCard(ce.getAdharcard());
 				c.setCustomerPanCard(ce.getPancardno());
 				c.setCibilScore(ce.getCi());
+				
+				c.setLoanStatus("Submitted");
 				//System.out.println(jsonData);
 				Customer save =lsi.saveData(c,addressProof,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
 				
@@ -97,5 +99,15 @@ public class loanController {
 		
 		
 	}
+	
+	@GetMapping("/getAllCustomer/{loanStatus}")
+	public List<Customer> getAllSubmitted(@PathVariable String loanStatus) {
+		List<Customer> customer=lsi.getAllCustomer(loanStatus);
+		return customer;
+		
+	}
+	
+	
+	
 	
 }

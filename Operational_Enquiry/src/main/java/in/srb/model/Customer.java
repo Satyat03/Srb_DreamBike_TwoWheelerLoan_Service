@@ -1,21 +1,20 @@
- package in.srb.model;
+package in.srb.model;
+
+import org.hibernate.annotations.DialectOverride.Version;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 import jakarta.persistence.OneToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+
 
 @Data
-@Entity
-@NoArgsConstructor
 public class Customer {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	
 	
     private Integer CustomerId;
 	
@@ -24,9 +23,7 @@ public class Customer {
     private Integer customerAge;
     private String customerAdditionalMobileNumber;
     private String customerEmail;
-    
     private String customerAdharCard;
-    
     private String customerPanCard;
     
     
@@ -36,9 +33,7 @@ public class Customer {
     private Double customerTotalLoanRequired;
     private String loanStatus; // Values: Submit, verified, sanctioned, disbursed
 
- 
-    
-    // Relationships
+	// Relationships
     @OneToOne(cascade = CascadeType.ALL)
     private AllPersonalDocuments allPersonalDocument;
     @OneToOne(cascade = CascadeType.ALL)// One-to-One

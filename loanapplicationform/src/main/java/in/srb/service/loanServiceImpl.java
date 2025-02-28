@@ -1,6 +1,7 @@
 package in.srb.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class loanServiceImpl implements LoanServiceI {
 
 	@Override
 	public Customer saveData(Customer c, MultipartFile panCard, MultipartFile incomeTax, MultipartFile addharCard,
-			MultipartFile addressProof,MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips) {
+			MultipartFile addressProof,MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips)  {
 
 		AllPersonalDocuments pd = new AllPersonalDocuments();
 
@@ -121,8 +122,9 @@ public class loanServiceImpl implements LoanServiceI {
 //			pd.setSignature(sig);
 //			pd.setBankCheque(check);
 //			pd.setSalarySlips(slip);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		}  
+		catch (Exception e) {
+			
 			e.printStackTrace();
 		}
 
@@ -156,4 +158,10 @@ public class loanServiceImpl implements LoanServiceI {
 	    return false;
 
 	}
+	@Override
+	public List<Customer> getAllCustomer(String loanStatus) {
+		
+		return lr.findAllByLoanStatus(loanStatus);
+	}
+
 }

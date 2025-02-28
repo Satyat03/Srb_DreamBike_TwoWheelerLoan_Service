@@ -1,21 +1,18 @@
- package in.srb.model;
+package in.cm.model;
+
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @Entity
-@NoArgsConstructor
 public class Customer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	
     private Integer CustomerId;
 	
@@ -24,9 +21,7 @@ public class Customer {
     private Integer customerAge;
     private String customerAdditionalMobileNumber;
     private String customerEmail;
-    
     private String customerAdharCard;
-    
     private String customerPanCard;
     
     
@@ -47,8 +42,12 @@ public class Customer {
     private CustomerAddress customerAddress;
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private MedicalInfo medicalInfo;
+    
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
+    @Embedded
     private Cibil cibilScore;          
+    
+    
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private CurrentLoanDetails currentLoanDetails; 
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
@@ -62,7 +61,7 @@ public class Customer {
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Ledger ledger;         
     @OneToOne(cascade = CascadeType.ALL)// One-to-Many
-    private SanctionLetter sanctionLetter;    
+    private SanctionLetter sl;    
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private CustomerVerification customerVerification; // One-to-One
 

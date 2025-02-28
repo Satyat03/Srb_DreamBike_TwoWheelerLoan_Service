@@ -99,13 +99,13 @@ public class CustomerController {
 		
 	}
 
-	@GetMapping("/getStatus/{enquiryStatus}")
-	public ResponseEntity<List<CustomerEnquiry>> getEnquirystatus(@PathVariable ("enquiryStatus")String enquiryStatus)
-	{
-		List<CustomerEnquiry> status = csi.getDataByStatus(enquiryStatus);
-		return new ResponseEntity<List<CustomerEnquiry>>(status,HttpStatus.OK);
-	
-	}
+//	@GetMapping("/getStatus/{enquiryStatus}")
+//	public ResponseEntity<List<CustomerEnquiry>> getEnquirystatus(@PathVariable ("enquiryStatus")String enquiryStatus)
+//	{
+//		List<CustomerEnquiry> status = csi.getDataByStatus(enquiryStatus);
+//		return new ResponseEntity<List<CustomerEnquiry>>(status,HttpStatus.OK);
+//	
+//	}
 
 	@PostMapping("/email")
 	public String sendMail(@RequestBody EmailSender e)

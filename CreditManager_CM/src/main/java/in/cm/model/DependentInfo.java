@@ -1,10 +1,6 @@
-package in.srb.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+package in.cm.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
@@ -12,7 +8,6 @@ import lombok.Data;
 @Entity
 public class DependentInfo {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int dependentInfoId;
     private int noOfFamilyMember;
     private int noOfChild;
