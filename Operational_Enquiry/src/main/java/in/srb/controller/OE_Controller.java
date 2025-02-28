@@ -18,9 +18,11 @@ import in.srb.model.Cibil;
 import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
 import in.srb.service.OEServiceI;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/oe")
+@Slf4j
 public class OE_Controller {
 
 	@Autowired
@@ -81,6 +83,12 @@ public class OE_Controller {
 	    }
 
 	    // Return updated list
+	    
+	    log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+		
 	    return ResponseEntity.ok(customerEnquiries);
 	}
 	
@@ -99,6 +107,12 @@ public class OE_Controller {
 	    }
 
 	    // Return the updated list
+	    
+	    log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+		
 	    return new ResponseEntity<>(submittedCustomers, HttpStatus.OK);
 	
 	}
