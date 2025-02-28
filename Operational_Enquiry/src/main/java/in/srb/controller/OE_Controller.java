@@ -84,10 +84,10 @@ public class OE_Controller {
 
 	    // Return updated list
 	    
-	    log.error("this is error log");
-		log.info("this is info log");
-		log.warn("this is warn log");
-		log.debug("this is debug log");
+	    log.error("this is error event");
+		log.info("this is info event");
+		log.warn("this is warn event");
+		log.debug("this is debug event");
 		
 	    return ResponseEntity.ok(customerEnquiries);
 	}
@@ -108,10 +108,10 @@ public class OE_Controller {
 
 	    // Return the updated list
 	    
-	    log.error("this is error log");
-		log.info("this is info log");
-		log.warn("this is warn log");
-		log.debug("this is debug log");
+	    log.error("this is error event");
+		log.info("this is info event");
+		log.warn("this is warn event");
+		log.debug("this is debug event");
 		
 	    return new ResponseEntity<>(submittedCustomers, HttpStatus.OK);
 	
