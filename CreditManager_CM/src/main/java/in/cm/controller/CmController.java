@@ -36,6 +36,8 @@ public class CmController {
 		log.info("this is info log");
 		log.warn("this is warn log");
 		log.debug("this is debug log");
+		
+
 
 		return null;
 
