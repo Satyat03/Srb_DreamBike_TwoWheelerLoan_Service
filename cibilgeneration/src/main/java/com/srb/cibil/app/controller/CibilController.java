@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.srb.cibil.app.model.Cibil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/cibil")
+@Slf4j
 public class CibilController {
 
 	@GetMapping("/{cibilid}")
@@ -49,7 +52,13 @@ public class CibilController {
 		
 		c.setCibilScoreDataTime(new Date());
 		//System.out.println(c);
-
+        
+		
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+		
 		return new ResponseEntity<Cibil>(c,HttpStatus.CREATED);
 	}
 
