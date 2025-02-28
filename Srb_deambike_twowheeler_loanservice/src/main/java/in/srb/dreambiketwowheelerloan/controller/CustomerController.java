@@ -21,9 +21,11 @@ import in.srb.dreambiketwowheelerloan.model.CustomerEnquiry;
 import in.srb.dreambiketwowheelerloan.model.EmailSender;
 import in.srb.dreambiketwowheelerloan.service.CustomerServiceI;
 import in.srb.dreambiketwowheelerloan.utility.EmailService;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/customer")
+@Slf4j
 public class CustomerController {
 
 	@Autowired
@@ -52,6 +54,13 @@ public class CustomerController {
 //		
 		csi.savedata(cs);
 		
+
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+
+		
 		return new ResponseEntity<String>("Data Added Successfully !!",HttpStatus.CREATED);
 		
 	}
@@ -59,11 +68,25 @@ public class CustomerController {
 	@GetMapping("/getAll")
 	public ResponseEntity<List<CustomerEnquiry>> getAllData(){
 		List<CustomerEnquiry> list=csi.getAllCustomerEnquiryData();
+		
+
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+
 		return new ResponseEntity<List<CustomerEnquiry>>(list,HttpStatus.OK);
 	}
 	@PutMapping("/update/{CustomerId}")
 	public ResponseEntity<CustomerEnquiry> updatedata(@RequestBody CustomerEnquiry c,@PathVariable int CustomerId){
 		CustomerEnquiry ce=csi.updateCustomerEnquiryData(c,CustomerId);
+		
+
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+
 		return new ResponseEntity<CustomerEnquiry>(ce,HttpStatus.ACCEPTED);
 	}
 	
@@ -73,6 +96,13 @@ public class CustomerController {
 	@DeleteMapping("/deleteById/{CustomerId}")
 	public ResponseEntity<String> deleteCustomerById(@PathVariable int CustomerId){
 		String string=csi.deleteCustomer(CustomerId);
+		
+
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+
 		return new ResponseEntity<String>(string,HttpStatus.ACCEPTED);
 		
 	}
@@ -85,6 +115,13 @@ public class CustomerController {
 		customer.setCi(cibil);
 		
 		CustomerEnquiry customerEnquiry=csi.updateCibilStatus(customer);
+		
+
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+
 		return new ResponseEntity<CustomerEnquiry>(customerEnquiry,HttpStatus.CREATED);
 		
 	}
@@ -93,7 +130,12 @@ public class CustomerController {
 	public ResponseEntity<CustomerEnquiry> getSingle(@PathVariable ("CustomerId")int CustomerId )
 	{
 		CustomerEnquiry ce=csi.getSingleRecord(CustomerId);
-		
+
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+
 		return new ResponseEntity<CustomerEnquiry>(ce,HttpStatus.OK);
 		
 		
@@ -122,14 +164,24 @@ public class CustomerController {
 	@GetMapping("/approved")
 	public ResponseEntity<List<CustomerEnquiry>> approvedCustomer(){
 		List<CustomerEnquiry> approvedStatus = csi.findApprovedStatus();
-		
+
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+
 		return new ResponseEntity<List<CustomerEnquiry>>(approvedStatus,HttpStatus.FOUND);
 		
 	}
 	@GetMapping("/rejected")
 	public ResponseEntity<List<CustomerEnquiry>> rejectedCustomer(){
 		List<CustomerEnquiry> rs = csi.findRejectedStatus();
-		
+
+		log.error("this is error log");
+		log.info("this is info log");
+		log.warn("this is warn log");
+		log.debug("this is debug log");
+
 		return new ResponseEntity<List<CustomerEnquiry>>(rs,HttpStatus.FOUND);
 		
 	}
