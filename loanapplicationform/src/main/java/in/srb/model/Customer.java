@@ -58,7 +58,7 @@ public class Customer {
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Ledger ledger;         
     @OneToOne(cascade = CascadeType.ALL)// One-to-Many
-    private SanctionLetter sanctionLetter;    
+    private SanctionLetter sl;    
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private CustomerVerification customerVerification; // One-to-One
 

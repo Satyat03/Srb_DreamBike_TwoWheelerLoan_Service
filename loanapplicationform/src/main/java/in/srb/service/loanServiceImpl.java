@@ -2,6 +2,7 @@ package in.srb.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,12 @@ public class loanServiceImpl implements LoanServiceI {
 	public List<Customer> getAllCustomer(String loanStatus) {
 		
 		return lr.findAllByLoanStatus(loanStatus);
+	}
+
+	@Override
+	public Optional<Customer> findById(Integer customerId) {
+		Optional<Customer> byId = lr.findById(customerId);
+		return byId;
 	}
 
 }
