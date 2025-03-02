@@ -255,6 +255,10 @@ public class CMServiceImpl implements CMserviceI{
 		Optional<Customer> byId = cmr.findById(customerId);
 		return byId;
 	}
+	@Override
+	public void saveData(Customer c) {
+		cmr.save(c);
+	}
 
 	}
 

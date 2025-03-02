@@ -34,7 +34,10 @@ public class EmailController
 		Customer customerDetails = customerdetail.get();
 		if(customerdetail.isPresent())
 		{
-			customerdetail.get().setLoanStatus("Offered");
+			customerdetail.get().getSl().setStatus("Orederd");
+			cs.saveData(customerDetails);
+
+			System.out.println(customerdetail.get().getSl().getStatus());
 			emailservice.sendSantionLetterMail(customerDetails);
 			return customerDetails;
 		}

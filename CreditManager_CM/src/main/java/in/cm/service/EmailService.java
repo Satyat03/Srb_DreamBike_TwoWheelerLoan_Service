@@ -7,4 +7,5 @@ public interface EmailService
 {
  
 	public SanctionLetter sendSantionLetterMail(Customer customerDetails);
+	
 }
