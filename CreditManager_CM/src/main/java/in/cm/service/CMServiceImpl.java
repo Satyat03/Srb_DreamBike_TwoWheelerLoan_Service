@@ -243,12 +243,11 @@ public class CMServiceImpl implements CMserviceI{
 				byte[] bytes = byt.readAllBytes();
 				c.getSl().setSanctionLetter(bytes);
 	            // Save updated customer details in the database
-	            cmr.save(c);
+	            return cmr.save(c);
 	            
 	        } else {
 	            throw new IllegalArgumentException("Customer not found with ID: " + customerId);
 	        }
-			return cs;
 	    }
 	@Override
 	public Optional<Customer> findById(Integer customerId) {
