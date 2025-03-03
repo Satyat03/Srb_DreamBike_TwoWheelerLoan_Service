@@ -21,6 +21,8 @@ public interface LoanServiceI {
 
 	public Optional<Customer> findById(Integer customerId);
 
+	public String updateLoanDisbursement(Customer c, int customerId);
+
 
 
 }
