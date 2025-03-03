@@ -12,7 +12,7 @@ import lombok.NonNull;
 
 @Data
 @Entity
-@NoArgsConstructor
+
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
