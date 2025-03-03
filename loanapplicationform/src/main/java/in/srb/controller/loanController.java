@@ -51,6 +51,7 @@ public class loanController {
 	@PostMapping("/addData/{CustomerId}")
 	public ResponseEntity<Customer> applicationForm(@RequestPart ("json") String jsonData,
 			@PathVariable("CustomerId") Integer CustomerId,
+			
 			@RequestPart("addressProof") MultipartFile addressProof,
 			@RequestPart("panCard") MultipartFile panCard,
 			@RequestPart("incomeTax") MultipartFile incomeTax,

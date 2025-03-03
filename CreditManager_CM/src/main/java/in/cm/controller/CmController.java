@@ -31,9 +31,13 @@ public class CmController {
 		public ResponseEntity<Customer> updatesanction(@PathVariable("CustomerId") int CustomerId, @RequestBody Customer cs)
 		{
 			
+
 			Customer customer=cmi.updateSanction(CustomerId,cs);
-			
+
+			//Customer updateSanction = cmi.updateSanction(CustomerId,cs);
+
 			return new ResponseEntity<Customer>(customer,HttpStatus.CREATED);
+
 			
 		}
 			

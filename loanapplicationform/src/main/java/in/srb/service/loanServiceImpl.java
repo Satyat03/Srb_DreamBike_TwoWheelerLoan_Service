@@ -72,6 +72,7 @@ public class loanServiceImpl implements LoanServiceI {
 	}
 
 	@Override
+
 	public Customer getCustomer(String username, String password) {
 	    Optional<Customer> optionalCustomer = lr.findByUsername(username);
 
@@ -92,6 +93,12 @@ public class loanServiceImpl implements LoanServiceI {
 
 	    return lr.save(customer);
 	    
+	}
+
+
+	public Optional<Customer> findById(Integer customerId) {
+		Optional<Customer> byId = lr.findById(customerId);
+		return byId;
 	}
 
 

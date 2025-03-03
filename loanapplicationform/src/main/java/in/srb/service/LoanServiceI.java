@@ -1,6 +1,7 @@
 package in.srb.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,11 @@ public interface LoanServiceI {
 
 	public List<Customer> getAllCustomer(String loanStatus);
 
+
 	public Customer getCustomer(String username, String password);
+
+	public Optional<Customer> findById(Integer customerId);
+
 
 
 }
