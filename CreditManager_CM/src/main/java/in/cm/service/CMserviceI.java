@@ -1,9 +1,15 @@
 package in.cm.service;
 
-import in.cm.model.Customer;
+import java.util.Optional;
 
+
+import in.cm.model.Customer;
 public interface CMserviceI {
  
-	public void updateSanction(int customerId, Customer cs);
+	public Customer updateSanction(int customerId, Customer cs);
 
+	
+	public Optional<Customer> findById(Integer customerId);
+
+	public void saveData(Customer c);
 }
