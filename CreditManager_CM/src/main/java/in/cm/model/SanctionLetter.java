@@ -3,10 +3,12 @@ package in.cm.model;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.Data;
 
 @Data
@@ -31,7 +33,10 @@ public class SanctionLetter {
     private String status;
 
     // Getters and Setters
-    
+    @Lob
+	@Column(length = 9000000)
+	private byte[] sanctionLetter;
+	
 //    {
 //    	"loanTenureInYear":2
 //    }
