@@ -15,7 +15,8 @@ public class Customer {
 	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	
     private Integer CustomerId;
-	
+	private String username;
+	private String password;
     private String customerName;
     private String customerMobileNumber;
     private Integer customerAge;
