@@ -1,4 +1,4 @@
-package in.cm.controller;
+package com.srbdreambike.acc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,53 +9,31 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
-import in.cm.model.Customer;
-import in.cm.service.CMserviceI;
-
+import com.srbdreambike.acc.model.Customer;
 
 @RestController
-@RequestMapping("/cm")
-public class CmController {
-
-	@Autowired
-	CMserviceI cmi;
+@RequestMapping("/accountHead")
+public class AccountController {
 	
+	
+	@Autowired
+	RestTemplate rt;
 	
 	@GetMapping("/get")
 	public String log() {
 		return "success!";
 	}
-		
-		@PutMapping("/addsanction/{CustomerId}")
-		public ResponseEntity<Customer> updatesanction(@PathVariable("CustomerId") int CustomerId, @RequestBody Customer cs)
-		{
-			
-
-			Customer customer=cmi.updateSanction(CustomerId,cs);
-
-			//Customer updateSanction = cmi.updateSanction(CustomerId,cs);
-
-			return new ResponseEntity<Customer>(customer,HttpStatus.CREATED);
-
-			
-		}
-			
-			
-			
-			
-			
-			
-		
 	
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	@PutMapping("/loanDisburse/{CustomerId}")
+	public ResponseEntity<String> loanDisbursement(@RequestBody Customer c, @PathVariable int CustomerId) {
+
+		String url = "http://localhost:1003/loan/loanDisburse/" + CustomerId;
+
+		rt.put(url, c);
+
+		return new ResponseEntity<String>("Loan Disbursement Successfully Processed!", HttpStatus.CREATED);
 	}
 
+}

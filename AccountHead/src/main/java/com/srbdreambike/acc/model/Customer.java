@@ -1,21 +1,11 @@
- package in.srb.model;
+ package com.srbdreambike.acc.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
-@Entity
 
 public class Customer {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	
     private Integer CustomerId;
 	private String username;
@@ -26,9 +16,7 @@ public class Customer {
     private Integer customerAge;
     private String customerAdditionalMobileNumber;
     private String customerEmail;
-    
     private String customerAdharCard;
-    
     private String customerPanCard;
     
     
@@ -41,31 +29,31 @@ public class Customer {
  
     
     // Relationships
-    @OneToOne(cascade = CascadeType.ALL)
+   // @OneToOne(cascade = CascadeType.ALL)
     private AllPersonalDocuments allPersonalDocument;
-    @OneToOne(cascade = CascadeType.ALL)// One-to-One
+   // @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private DependentInfo familyDependentInfo;
-    @OneToOne(cascade = CascadeType.ALL)// One-to-One
+   // @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private CustomerAddress customerAddress;
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private MedicalInfo medicalInfo;
-    @OneToOne(cascade = CascadeType.ALL)// One-to-One
+   // @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private Cibil cibilScore;          
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private CurrentLoanDetails currentLoanDetails; 
 //    @OneToOne(cascade = CascadeType.ALL)// One-to-One
 //    private PreviousLoan previousLoan; 
-    @OneToOne(cascade = CascadeType.ALL)// One-to-One
+   // @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private AccountDetails accountDetails;  
-    @OneToOne(cascade = CascadeType.ALL)// One-to-One
+   // @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private GuarantorDetails guarantorDetails;   
-    @OneToOne(cascade = CascadeType.ALL)// One-to-One
+    //@OneToOne(cascade = CascadeType.ALL)// One-to-One
     private LoanDisbursement loanDisbursement;    
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Ledger ledger;         
-    @OneToOne(cascade = CascadeType.ALL)// One-to-Many
+   // @OneToOne(cascade = CascadeType.ALL)// One-to-Many
     private SanctionLetter sl;    
-    @OneToOne(cascade = CascadeType.ALL)// One-to-One
+   // @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private CustomerVerification customerVerification; // One-to-One
 
     // Getters and Setters

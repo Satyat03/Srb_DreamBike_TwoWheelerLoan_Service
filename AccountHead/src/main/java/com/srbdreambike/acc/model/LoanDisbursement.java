@@ -1,24 +1,19 @@
-package in.srb.model;
-
-import java.util.Date;
+package com.srbdreambike.acc.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
 import lombok.Data;
 
 @Data
-@Entity
+//@Entity
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class LoanDisbursement {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer agreementId;
     private Integer loanNo;
-    private Date agreementDate;
+    private String agreementDate;
     private String amountPayType;
     private Double totalAmount;
     private String bankName;
@@ -27,7 +22,7 @@ public class LoanDisbursement {
     private String accountType;
     private Double transferAmount;
     private String paymentStatus;
-    private Date amountPaidDate;
+    private String amountPaidDate;
 
     // Getters and Setters
       

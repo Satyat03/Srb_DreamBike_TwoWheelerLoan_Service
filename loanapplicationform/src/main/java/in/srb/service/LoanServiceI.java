@@ -1,6 +1,7 @@
 package in.srb.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,14 @@ public interface LoanServiceI {
 			MultipartFile addressProof,MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips);
 
 	public List<Customer> getAllCustomer(String loanStatus);
+
+
+	public Customer getCustomer(String username, String password);
+
+	public Optional<Customer> findById(Integer customerId);
+
+	public String updateLoanDisbursement(Customer c, int customerId);
+
 
 
 }

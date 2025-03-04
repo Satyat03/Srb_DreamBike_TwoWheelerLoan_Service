@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
 import in.srb.service.LoanServiceI;
+import jakarta.ws.rs.PUT;
 
 @RestController
 @RequestMapping("/loan")
@@ -50,6 +51,7 @@ public class loanController {
 	@PostMapping("/addData/{CustomerId}")
 	public ResponseEntity<Customer> applicationForm(@RequestPart ("json") String jsonData,
 			@PathVariable("CustomerId") Integer CustomerId,
+			
 			@RequestPart("addressProof") MultipartFile addressProof,
 			@RequestPart("panCard") MultipartFile panCard,
 			@RequestPart("incomeTax") MultipartFile incomeTax,
@@ -106,6 +108,22 @@ public class loanController {
 		return customer;
 		
 	}
+	
+	@GetMapping("/customerLogin/{username}/{password}")
+	public ResponseEntity<Customer> customerLogin(@PathVariable("username") String username,@PathVariable("password") String password ) {
+		Customer customer=lsi.getCustomer(username,password);
+	 return new ResponseEntity<Customer>(customer,HttpStatus.ACCEPTED);
+		
+	}
+	
+	@PutMapping("/loanDisburse/{CustomerId}")
+	public ResponseEntity<String> loanDisbursement(@RequestBody Customer c,@PathVariable int CustomerId) {
+		String disbursement = lsi.updateLoanDisbursement(c,CustomerId);
+		
+		return new ResponseEntity<String>(disbursement,HttpStatus.CREATED);
+		
+	}
+	
 	
 	
 	
