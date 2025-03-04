@@ -23,6 +23,10 @@ public interface LoanServiceI {
 
 	public String updateLoanDisbursement(Customer c, int customerId);
 
+	public void savecustomer(Customer customer);
+
+	public Customer changestatus(int customerId);
+
 
 
 }

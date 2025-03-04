@@ -23,6 +23,7 @@ import in.srb.exception.InvalidSalarySlipException;
 import in.srb.exception.SignatureInvalidException;
 import in.srb.model.AllPersonalDocuments;
 import in.srb.model.Customer;
+import in.srb.model.CustomerVerification;
 import in.srb.model.LoanDisbursement;
 import in.srb.repo.LoanRepo;
 
@@ -134,17 +135,22 @@ public class loanServiceImpl implements LoanServiceI {
 	}
 
 	private boolean isValidPDF(MultipartFile file) {
-		if (file != null && !file.isEmpty()) // !null check the file exist or not nd .isempty checks if file has some
-												// data or not
-		{
+	    if (file != null && !file.isEmpty()) {
+	        String filename = file.getOriginalFilename(); // Get the original file name
+	        String contentType = file.getContentType(); // Get the MIME type
 
-			String filename = file.getOriginalFilename();
+	        // Log filename and content type for debugging
+	        System.out.println("File Name: " + filename);
+	        System.out.println("Content Type: " + contentType);
 
-			// Check MIME type and file extension for PDF validation
-			return (filename != null && filename.toLowerCase().endsWith(".pdf"));
-		}
-		return false;
+	        // Validate file name and extension
+	        return (filename != null 
+	                && filename.toLowerCase().endsWith(".pdf")
+	                && filename.equals(filename.toLowerCase()));
+	    }
+	    return false;
 	}
+
 
 	// }
 	@Override
@@ -214,5 +220,34 @@ public class loanServiceImpl implements LoanServiceI {
 		}
 		return "Customer Id Not Found" + customerId;
 	}
+
+	@Override
+	public void savecustomer(Customer customer) {
+		lr.save(customer);
+		
+	}
+
+	@Override
+	public Customer changestatus(int customerId) {
+	    Optional<Customer> byId = lr.findById(customerId);
+	    if (byId.isPresent()) {
+	        Customer customer = byId.get();
+	        
+	        if (customer.getCustomerVerification() == null) {
+	            customer.setCustomerVerification(new CustomerVerification());
+	        }
+	        
+	        customer.setLoanStatus("Verified");
+	        customer.getCustomerVerification().setStatus("Checked");
+	        customer.getCustomerVerification().setRemarks("All documents verified");
+	        customer.getCustomerVerification().setVerificationDate(new Date());
+	        System.out.println(customer);
+	        // Save the updated customer entity
+	        return lr.save(customer); 
+	    }
+	    // You can throw an exception or handle the null case gracefully
+	    throw new RuntimeException("Customer not found for ID: " + customerId);
+	}
+
 
 }

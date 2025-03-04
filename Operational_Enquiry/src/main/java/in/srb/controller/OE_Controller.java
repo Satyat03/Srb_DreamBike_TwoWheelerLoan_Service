@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,27 +87,28 @@ public class OE_Controller {
 	    return ResponseEntity.ok(customerEnquiries);
 	}
 	
-	@GetMapping("/getAllSubmitted")
-	public ResponseEntity<List<Customer>> getAllCustomerSubmitted() {
-	    String loanUrl = "http://localhost:1003/loan/getAllCustomer/Submitted";
+	@GetMapping("/getAllSubmitted/{CustomerId}")
+	public ResponseEntity<Customer> getAllCustomerSubmitted(@PathVariable("CustomerId") int CustomerId) {
+	    String loanUrl = "http://localhost:1003/loan/changestatus/" + CustomerId;
 
-	    // Fetch the list of customers with loan status "Submitted"
-	    List<Customer> submittedCustomers = rt.getForObject(loanUrl, List.class);
+	    // Use ParameterizedTypeReference for List<Customer>
+	    ResponseEntity<Customer> response = rt.exchange(
+	        loanUrl,
+	        HttpMethod.GET, // Assuming the endpoint uses GET
+	        null,
+	        new ParameterizedTypeReference<Customer>() {}
+	    );
+	    return response;
+	}
 
-	    // Update loan status to "Verified" for all customers
-	    if (submittedCustomers != null && !submittedCustomers.isEmpty()) {
-	        for (Customer customer : submittedCustomers) {
-	            customer.setLoanStatus("Verified");
-	        }
-	    }
 
-	    // Return the updated list
-	    return new ResponseEntity<>(submittedCustomers, HttpStatus.OK);
+	
 	
 	}
+
 	
 	
 	
 
 
-}
+
