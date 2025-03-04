@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @Entity
@@ -24,7 +26,9 @@ public class Customer {
     private Integer customerAge;
     private String customerAdditionalMobileNumber;
     private String customerEmail;
+    
     private String customerAdharCard;
+    
     private String customerPanCard;
     
     
