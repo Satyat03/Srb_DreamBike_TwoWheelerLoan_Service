@@ -17,7 +17,7 @@ public class AllPersonalDocuments {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int documentID;
 
-	
+
 	@Lob
 	@Column(length = 999999999)
     private byte[] addressProof;

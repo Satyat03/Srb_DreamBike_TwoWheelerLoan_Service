@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import in.srb.model.Customer;
@@ -59,7 +57,7 @@ public class loanController {
 			@RequestPart("photo") MultipartFile photo,
 			@RequestPart("signature") MultipartFile signature,
 			@RequestPart("bankCheque") MultipartFile bankCheque,
-			@RequestPart("salarySlips") MultipartFile salarySlips) throws JsonMappingException, JsonProcessingException{
+			@RequestPart("salarySlips") MultipartFile salarySlips) throws Exception{
 		
 		
 		String urlAprroed="http://localhost:1000/customer/approved";
