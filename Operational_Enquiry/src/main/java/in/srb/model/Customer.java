@@ -2,6 +2,8 @@ package in.srb.model;
 
 import org.hibernate.annotations.DialectOverride.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import lombok.Data;
 
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer {
 	
 	

@@ -102,7 +102,7 @@ public class loanController {
 	}
 	
 	@GetMapping("/getAllCustomer/{loanStatus}")
-	public List<Customer> getAllSubmitted(@PathVariable String loanStatus) {
+	public List<Customer> getAllSubmitted(@PathVariable ("loanStatus")String loanStatus) {
 		List<Customer> customer=lsi.getAllCustomer(loanStatus);
 		return customer;
 		

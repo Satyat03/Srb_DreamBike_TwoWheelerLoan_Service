@@ -1,9 +1,13 @@
 package in.srb.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,14 +93,20 @@ public class OE_Controller {
 	    String loanUrl = "http://localhost:1003/loan/getAllCustomer/Submitted";
 
 	    // Fetch the list of customers with loan status "Submitted"
-	    List<Customer> submittedCustomers = rt.getForObject(loanUrl, List.class);
+	    
+	    List<?> rawList = rt.getForObject(loanUrl, List.class);
+	    List<Customer> submittedCustomers = new ArrayList<>();
 
-	    // Update loan status to "Verified" for all customers
-	    if (submittedCustomers != null && !submittedCustomers.isEmpty()) {
-	        for (Customer customer : submittedCustomers) {
+	    ObjectMapper objectMapper = new ObjectMapper();
+
+	    if (rawList != null && !rawList.isEmpty()) {
+	        for (Object obj : rawList) {
+	            Customer customer = objectMapper.convertValue(obj, Customer.class);
 	            customer.setLoanStatus("Verified");
+	            submittedCustomers.add(customer);
 	        }
 	    }
+
 
 	    // Return the updated list
 	    return new ResponseEntity<>(submittedCustomers, HttpStatus.OK);
