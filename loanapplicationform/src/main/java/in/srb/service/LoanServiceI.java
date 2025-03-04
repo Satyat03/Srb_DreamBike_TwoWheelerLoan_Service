@@ -16,7 +16,13 @@ public interface LoanServiceI {
 
 	public List<Customer> getAllCustomer(String loanStatus);
 
+
+	public Customer getCustomer(String username, String password);
+
 	public Optional<Customer> findById(Integer customerId);
+
+	public String updateLoanDisbursement(Customer c, int customerId);
+
 
 
 }

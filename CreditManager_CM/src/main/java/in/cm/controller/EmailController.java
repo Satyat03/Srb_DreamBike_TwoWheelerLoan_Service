@@ -34,7 +34,8 @@ public class EmailController
 		Customer customerDetails = customerdetail.get();
 		if(customerdetail.isPresent())
 		{
-			customerdetail.get().getSl().setStatus("Orederd");
+			customerdetail.get().getSl().setStatus("Offered");
+			
 			cs.saveData(customerDetails);
 
 			System.out.println(customerdetail.get().getSl().getStatus());

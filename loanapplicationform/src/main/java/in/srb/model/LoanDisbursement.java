@@ -1,5 +1,7 @@
 package in.srb.model;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -16,7 +18,7 @@ public class LoanDisbursement {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer agreementId;
     private Integer loanNo;
-    private String agreementDate;
+    private Date agreementDate;
     private String amountPayType;
     private Double totalAmount;
     private String bankName;
@@ -25,7 +27,7 @@ public class LoanDisbursement {
     private String accountType;
     private Double transferAmount;
     private String paymentStatus;
-    private String amountPaidDate;
+    private Date amountPaidDate;
 
     // Getters and Setters
       
