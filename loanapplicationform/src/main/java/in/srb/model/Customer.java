@@ -16,7 +16,6 @@ import lombok.NonNull;
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	
     private Integer CustomerId;
 	private String username;
 	private String password;

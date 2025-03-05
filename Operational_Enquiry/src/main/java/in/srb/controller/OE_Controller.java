@@ -92,35 +92,31 @@ public class OE_Controller {
 	}
 	
 	@GetMapping("/getAllSubmitted/{CustomerId}")
-	public ResponseEntity<List<Customer>> getAllCustomerSubmitted(@PathVariable("CustomerId") Integer CustomerId) {
-	    String loanUrl = "http://localhost:1003/loan/getAllCustomer/Submitted";
+	public ResponseEntity<Customer> getAllCustomerSubmitted(@PathVariable("CustomerId") int CustomerId) {
+	    String loanUrl = "http://localhost:1003/loan/changestatus/" + CustomerId;
 
 	    // Fetch the list of customers with loan status "Submitted"
 	    
 	    List<?> rawList = rt.getForObject(loanUrl, List.class);
 	    List<Customer> submittedCustomers = new ArrayList<>();
-
-	    ObjectMapper objectMapper = new ObjectMapper();
-
-	    if (rawList != null && !rawList.isEmpty()) {
-	        for (Object obj : rawList) {
-	            Customer customer = objectMapper.convertValue(obj, Customer.class);
-	           
-	            customer.setLoanStatus("Verified");
-	            submittedCustomers.add(customer);
-	            
-	            	}
-	        }
+	    // Use ParameterizedTypeReference for List<Customer>
+	    ResponseEntity<Customer> response = rt.exchange(
+	        loanUrl,
+	        HttpMethod.GET, // Assuming the endpoint uses GET
+	        null,
+	        new ParameterizedTypeReference<Customer>() {}
+	    );
+	    return response;
 	    
 
-
-	    // Return the updated list
-	    return new ResponseEntity<>(submittedCustomers, HttpStatus.OK);
-	
 	}
 	
-	
-	
-
-
 }
+	
+
+	
+	
+	
+
+
+

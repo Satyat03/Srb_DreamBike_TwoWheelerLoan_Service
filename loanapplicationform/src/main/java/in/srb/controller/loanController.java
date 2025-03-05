@@ -1,10 +1,9 @@
 package in.srb.controller;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import org.aspectj.weaver.NewParentTypeMunger; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -122,6 +121,16 @@ public class loanController {
 		
 	}
 	
+	
+	@GetMapping("/changestatus/{CustomerId}")
+	public ResponseEntity<Customer> changestatus(@PathVariable("CustomerId") int CustomerId) {
+	   
+	        Customer updatedCustomer = lsi.changestatus(CustomerId);
+	        return ResponseEntity.ok(updatedCustomer);
+	    
+	     
+	}
+
 	
 	
 	
