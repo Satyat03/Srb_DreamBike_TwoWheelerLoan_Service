@@ -1,4 +1,4 @@
-package com.srbdreambike.acc.controller;
+ 	package com.srbdreambike.acc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class AccountController {
 	}
 	
 	@PutMapping("/loanDisburse/{CustomerId}")
-	public ResponseEntity<String> loanDisbursement(@RequestBody Customer c, @PathVariable int CustomerId) {
+	public ResponseEntity<String> loanDisbursement(@RequestBody Customer c, @PathVariable("CustomerId") int CustomerId) {
 
 		String url = "http://localhost:1003/loan/loanDisburse/" + CustomerId;
 
