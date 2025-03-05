@@ -13,49 +13,28 @@ import org.springframework.web.bind.annotation.RestController;
 import in.cm.model.Customer;
 import in.cm.service.CMserviceI;
 
-
 @RestController
 @RequestMapping("/cm")
 public class CmController {
 
 	@Autowired
 	CMserviceI cmi;
-	
-	
+
 	@GetMapping("/get")
 	public String log() {
 		return "success!";
 	}
-		
-		@PutMapping("/addsanction/{CustomerId}")
-		public ResponseEntity<Customer> updatesanction(@PathVariable("CustomerId") int CustomerId, @RequestBody Customer cs)
-		{
-			
 
-			Customer customer=cmi.updateSanction(CustomerId,cs);
+	@PutMapping("/addsanction/{CustomerId}")
+	public ResponseEntity<Customer> updatesanction(@PathVariable("CustomerId") int CustomerId,
+			@RequestBody Customer cs) {
 
-			//Customer updateSanction = cmi.updateSanction(CustomerId,cs);
+		Customer customer = cmi.updateSanction(CustomerId, cs);
 
-			return new ResponseEntity<Customer>(customer,HttpStatus.CREATED);
+		// Customer updateSanction = cmi.updateSanction(CustomerId,cs);
 
-			
-		}
-			
-			
-			
-			
-			
-			
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		return new ResponseEntity<Customer>(customer, HttpStatus.CREATED);
+
 	}
 
+}
