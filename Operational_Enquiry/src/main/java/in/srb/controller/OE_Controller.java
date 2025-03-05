@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +19,11 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import in.srb.model.AccountDetails;
 import in.srb.model.Cibil;
 import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
+import in.srb.model.CustomerVerification;
 import in.srb.service.OEServiceI;
 
 @RestController
@@ -88,8 +91,8 @@ public class OE_Controller {
 	    return ResponseEntity.ok(customerEnquiries);
 	}
 	
-	@GetMapping("/getAllSubmitted")
-	public ResponseEntity<List<Customer>> getAllCustomerSubmitted() {
+	@GetMapping("/getAllSubmitted/{CustomerId}")
+	public ResponseEntity<List<Customer>> getAllCustomerSubmitted(@PathVariable("CustomerId") Integer CustomerId) {
 	    String loanUrl = "http://localhost:1003/loan/getAllCustomer/Submitted";
 
 	    // Fetch the list of customers with loan status "Submitted"
@@ -102,10 +105,13 @@ public class OE_Controller {
 	    if (rawList != null && !rawList.isEmpty()) {
 	        for (Object obj : rawList) {
 	            Customer customer = objectMapper.convertValue(obj, Customer.class);
+	           
 	            customer.setLoanStatus("Verified");
 	            submittedCustomers.add(customer);
+	            
+	            	}
 	        }
-	    }
+	    
 
 
 	    // Return the updated list

@@ -1,6 +1,8 @@
 package com.srbdreambike.acc.model;
 
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -9,7 +11,7 @@ public class CustomerVerification {
 //	@Id
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer verificationID;
-    private String verificationDate;
+    private Date verificationDate;
     private String status;
     private String remarks;
 

@@ -139,6 +139,8 @@ public class loanServiceImpl implements LoanServiceI {
 		{
 
 			String filename = file.getOriginalFilename();
+			
+			
 
 			// Check MIME type and file extension for PDF validation
 			return (filename != null && filename.toLowerCase().endsWith(".pdf"));
