@@ -125,6 +125,30 @@ public class loanController {
 	}
 	
 	
+
+	@GetMapping("/changestatus/{CustomerId}")
+	public ResponseEntity<Customer> changestatus(@PathVariable("CustomerId") int CustomerId) {
+	   
+	        Customer updatedCustomer = lsi.changestatus(CustomerId);
+	        return ResponseEntity.ok(updatedCustomer);
+	    
+	     
+	}
+
+	
+	@GetMapping("/legergen/{CustomerId}/{payment}")
+	public Customer loanDisbursement(@PathVariable ("CustomerId") int CustomerId,
+			@PathVariable("payment") int payment)
+	{
+		
+		Customer cs =lsi.createleager(CustomerId,payment);
+		
+		
+		return cs;
+		
+	}
+	
+
 	
 	
 	

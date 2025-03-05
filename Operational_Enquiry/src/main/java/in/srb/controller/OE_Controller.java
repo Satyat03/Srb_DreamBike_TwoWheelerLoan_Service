@@ -84,6 +84,21 @@ public class OE_Controller {
 	    return ResponseEntity.ok(customerEnquiries);
 	}
 	
+
+	@GetMapping("/getAllSubmitted/{CustomerId}")
+	public ResponseEntity<Customer> getAllCustomerSubmitted(@PathVariable("CustomerId") int CustomerId) {
+	    String loanUrl = "http://localhost:1003/loan/changestatus/" + CustomerId;
+
+	    // Use ParameterizedTypeReference for List<Customer>
+	    ResponseEntity<Customer> response = rt.exchange(
+	        loanUrl,
+	        HttpMethod.GET, // Assuming the endpoint uses GET
+	        null,
+	        new ParameterizedTypeReference<Customer>() {}
+	    );
+	    return response;
+	}
+
 	@GetMapping("/getAllSubmitted")
 	public ResponseEntity<List<Customer>> getAllCustomerSubmitted() {
 	    String loanUrl = "http://localhost:1003/loan/getAllCustomer/Submitted";
@@ -101,6 +116,7 @@ public class OE_Controller {
 	    // Return the updated list
 	    return new ResponseEntity<>(submittedCustomers, HttpStatus.OK);
 	
+
 	}
 	
 	
