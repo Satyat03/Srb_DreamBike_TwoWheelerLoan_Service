@@ -1,6 +1,8 @@
  package com.srbdreambike.acc.model;
 
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -50,7 +52,7 @@ public class Customer {
     //@OneToOne(cascade = CascadeType.ALL)// One-to-One
     private LoanDisbursement loanDisbursement;    
 //    @OneToMany(cascade = CascadeType.ALL)
-//    private Ledger ledger;         
+    private List<Ledger> ledger;         
    // @OneToOne(cascade = CascadeType.ALL)// One-to-Many
     private SanctionLetter sl;    
    // @OneToOne(cascade = CascadeType.ALL)// One-to-One

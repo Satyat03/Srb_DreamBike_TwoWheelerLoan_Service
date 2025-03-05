@@ -132,6 +132,18 @@ public class loanController {
 	}
 
 	
+	@GetMapping("/legergen/{CustomerId}/{payment}")
+	public Customer loanDisbursement(@PathVariable ("CustomerId") int CustomerId,
+			@PathVariable("payment") int payment)
+	{
+		
+		Customer cs =lsi.createleager(CustomerId,payment);
+		
+		
+		return cs;
+		
+	}
+	
 	
 	
 	
