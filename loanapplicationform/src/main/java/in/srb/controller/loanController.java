@@ -114,7 +114,7 @@ public class loanController {
 	}
 	
 	@PutMapping("/loanDisburse/{CustomerId}")
-	public ResponseEntity<String> loanDisbursement(@RequestBody Customer c,@PathVariable int CustomerId) {
+	public ResponseEntity<String> loanDisbursement(@RequestBody Customer c,@PathVariable ("CustomerId")int CustomerId) {
 		String disbursement = lsi.updateLoanDisbursement(c,CustomerId);
 		
 		return new ResponseEntity<String>(disbursement,HttpStatus.CREATED);

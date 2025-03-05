@@ -96,10 +96,7 @@ public class OE_Controller {
 	    String loanUrl = "http://localhost:1003/loan/changestatus/" + CustomerId;
 
 	    // Fetch the list of customers with loan status "Submitted"
-	    
-	    List<?> rawList = rt.getForObject(loanUrl, List.class);
-	    List<Customer> submittedCustomers = new ArrayList<>();
-	    // Use ParameterizedTypeReference for List<Customer>
+	   
 	    ResponseEntity<Customer> response = rt.exchange(
 	        loanUrl,
 	        HttpMethod.GET, // Assuming the endpoint uses GET
