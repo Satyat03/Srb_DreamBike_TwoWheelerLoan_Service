@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,12 +98,6 @@ public class CMServiceImpl implements CMserviceI{
 	            c.getSl().setApplicantName(c.getCustomerName());
 	            c.getSl().setContactDetails(c.getCustomerMobileNumber());
 	            c.getSl().setLoanRequired(c.getCustomerTotalLoanRequired());
-	            
-	            c.setUsername(c.getCustomerEmail());
-	            Random random=new Random();
-	            c.setPassword("User"+"@"+random.nextInt(100, 999));
-	            
-	            
                 
 	           
 		

@@ -12,7 +12,7 @@ public interface LoanServiceI {
 	//public Customer saveData(Customer c);
 
 	public Customer saveData(Customer c, MultipartFile panCard, MultipartFile incomeTax, MultipartFile addharCard,
-			MultipartFile addressProof,MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips) throws Exception;
+			MultipartFile addressProof,MultipartFile photo, MultipartFile signature, MultipartFile bankCheque, MultipartFile salarySlips);
 
 	public List<Customer> getAllCustomer(String loanStatus);
 
@@ -23,11 +23,13 @@ public interface LoanServiceI {
 
 	public String updateLoanDisbursement(Customer c, int customerId);
 
+
 	public void savecustomer(Customer customer);
 
 	public Customer changestatus(int customerId);
 
 	public Customer createleager(int customerId, int payment);
+
 
 
 

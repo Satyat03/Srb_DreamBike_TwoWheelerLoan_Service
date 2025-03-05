@@ -17,6 +17,7 @@ import lombok.Data;
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	
     private Integer CustomerId;
 	private String username;
 	private String password;
@@ -26,9 +27,7 @@ public class Customer {
     private Integer customerAge;
     private String customerAdditionalMobileNumber;
     private String customerEmail;
-    
     private String customerAdharCard;
-    
     private String customerPanCard;
     
     

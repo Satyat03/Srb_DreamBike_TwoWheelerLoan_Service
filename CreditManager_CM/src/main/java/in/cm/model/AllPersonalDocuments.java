@@ -16,22 +16,34 @@ public class AllPersonalDocuments {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int documentID;
-
-	@Column(length=999999)
+	@Lob
+	@Column(length=999999999)
     private byte[] addressProof;
-	@Column(length=999999)
+	@Lob
+	@Column(length=999999999)
     private byte[] panCard;
-	@Column(length=999999)
+	@Lob
+	@Column(length=999999999)
     private byte[] incomeTax;
-	@Column(length=999999)
+	@Lob
+	@Column(length=999999999)
     private byte[] addharCard;
-	@Column(length=999999)
+	@Lob
+	@Column(length=999999999)
     private byte[] photo;
-	@Column(length=999999)
+	@Lob
+	@Column(length=999999999)
     private byte[] signature;
-	@Column(length=999999)
+	@Lob
+	@Column(length=999999999)
     private byte[] bankCheque;
 	@Lob
 	@Column(length=999999999)
-    private byte[] salarySlips;   
+    private byte[] salarySlips;
+    
+    
+
+
+    
+    
 }
