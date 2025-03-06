@@ -380,7 +380,7 @@ public class loanServiceImpl implements LoanServiceI {
 	}
 
 	@Override
-	public Customer createleager(int customerId, int payment) throws Exception {
+	public Customer createleager(int customerId, Double payment) throws Exception {
 
 		Optional<Customer> byId = lr.findById(customerId);
 		if (!byId.isPresent()) {

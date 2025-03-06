@@ -36,6 +36,15 @@ public class AccountController {
 		return new ResponseEntity<String>("Loan Disbursement Successfully Processed!", HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/ledgerGeneration/{CustomerId}/{payment}")
+	public ResponseEntity<Customer> ledgerGeneration(@PathVariable("CustomerId") int CustomerId ,@PathVariable("payment") Double payment){
+		String url = "http://localhost:1003/loan/legergen/"+CustomerId+"/"+payment;
+		ResponseEntity<Customer> object = rt.getForEntity(url, Customer.class);
+		Customer customer = object.getBody();
+		return new ResponseEntity<Customer>(customer,HttpStatus.CREATED);
+		
+	}
+	
 	
 	
 	

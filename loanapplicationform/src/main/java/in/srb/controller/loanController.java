@@ -130,7 +130,7 @@ public class loanController {
 	
 	@GetMapping("/legergen/{CustomerId}/{payment}")
 	public Customer loanDisbursement(@PathVariable ("CustomerId") int CustomerId,
-			@PathVariable("payment") int payment) throws Exception
+			@PathVariable("payment") Double payment) throws Exception
 	{
 		
 		Customer cs =lsi.createleager(CustomerId,payment);
