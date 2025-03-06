@@ -1,14 +1,15 @@
  package in.srb.model;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @Entity
@@ -60,8 +61,8 @@ public class Customer {
     private GuarantorDetails guarantorDetails;   
     @OneToOne(cascade = CascadeType.ALL)// One-to-One
     private LoanDisbursement loanDisbursement;    
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private Ledger ledger;         
+    @OneToMany(cascade = CascadeType.ALL)
+     private List<Ledger> ledger;         
     @OneToOne(cascade = CascadeType.ALL)// One-to-Many
     private SanctionLetter sl;    
     @OneToOne(cascade = CascadeType.ALL)// One-to-One

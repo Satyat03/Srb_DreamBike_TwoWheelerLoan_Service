@@ -2,11 +2,8 @@ package in.srb.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import in.srb.model.Customer;
 import in.srb.model.CustomerEnquiry;
 import in.srb.service.LoanServiceI;
-import jakarta.ws.rs.PUT;
 
 @RestController
 @RequestMapping("/loan")
@@ -114,7 +110,7 @@ public class loanController {
 	}
 	
 	@PutMapping("/loanDisburse/{CustomerId}")
-	public ResponseEntity<String> loanDisbursement(@RequestBody Customer c,@PathVariable int CustomerId) {
+	public ResponseEntity<String> loanDisbursement(@RequestBody Customer c,@PathVariable ("CustomerId")int CustomerId) {
 		String disbursement = lsi.updateLoanDisbursement(c,CustomerId);
 		
 		return new ResponseEntity<String>(disbursement,HttpStatus.CREATED);
@@ -131,6 +127,18 @@ public class loanController {
 	     
 	}
 
+	
+	@GetMapping("/legergen/{CustomerId}/{payment}")
+	public Customer loanDisbursement(@PathVariable ("CustomerId") int CustomerId,
+			@PathVariable("payment") Double payment) throws Exception
+	{
+		
+		Customer cs =lsi.createleager(CustomerId,payment);
+		
+		
+		return cs;
+		
+	}
 	
 	
 	

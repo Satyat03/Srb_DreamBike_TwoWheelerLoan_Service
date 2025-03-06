@@ -27,6 +27,8 @@ public interface LoanServiceI {
 
 	public Customer changestatus(int customerId);
 
+	public Customer createleager(int customerId, Double payment) throws Exception;
+
 
 
 }
