@@ -43,13 +43,7 @@ public class CustomerController {
 	public ResponseEntity<String> createCustomer(@RequestBody CustomerEnquiry cs) 
 	{
 		cs.setEnquiryStatus("Pending");	
-//		String cibilurl="http://localhost:1001/cibil/"+cs.getCi().getCibilid();
-//		Cibil cibilscore= rs.getForObject(cibilurl, Cibil.class);
-//		//System.out.println(cibilscore);
 	
-//		cs.setCi(cibilscore);
-//		
-//		
 		csi.savedata(cs);
 		
 		return new ResponseEntity<String>("Data Added Successfully !!",HttpStatus.CREATED);
@@ -78,7 +72,7 @@ public class CustomerController {
 	}
 	
 	@PutMapping("updateCibilStatus/{CustomerId}")
-	public ResponseEntity<CustomerEnquiry> updateCibilStatus(@PathVariable ("CustomerId")int CustomerId){
+	public ResponseEntity<CustomerEnquiry> updateCibilStatus(@PathVariable int CustomerId){
 		CustomerEnquiry customer=csi.getCustomer(CustomerId);
 		String cibilurl="http://localhost:1001/cibil/"+customer.getCi().getCibilid();
 		Cibil cibil= rs.getForObject(cibilurl, Cibil.class);

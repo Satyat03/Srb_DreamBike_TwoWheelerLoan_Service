@@ -1,9 +1,10 @@
 package in.srb.controller;
 
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
+import org.aspectj.weaver.NewParentTypeMunger; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import in.srb.model.Customer;
@@ -56,7 +59,7 @@ public class loanController {
 			@RequestPart("photo") MultipartFile photo,
 			@RequestPart("signature") MultipartFile signature,
 			@RequestPart("bankCheque") MultipartFile bankCheque,
-			@RequestPart("salarySlips") MultipartFile salarySlips) throws Exception{
+			@RequestPart("salarySlips") MultipartFile salarySlips) throws JsonMappingException, JsonProcessingException{
 		
 		
 		String urlAprroed="http://localhost:1000/customer/approved";
@@ -122,6 +125,7 @@ public class loanController {
 	}
 	
 	
+
 	@GetMapping("/changestatus/{CustomerId}")
 	public ResponseEntity<Customer> changestatus(@PathVariable("CustomerId") int CustomerId) {
 	   
@@ -132,6 +136,19 @@ public class loanController {
 	}
 
 	
+	@GetMapping("/legergen/{CustomerId}/{payment}")
+	public Customer loanDisbursement(@PathVariable ("CustomerId") int CustomerId,
+			@PathVariable("payment") int payment)
+	{
+		
+		Customer cs =lsi.createleager(CustomerId,payment);
+		
+		
+		return cs;
+		
+	}
+	
+
 	
 	
 	

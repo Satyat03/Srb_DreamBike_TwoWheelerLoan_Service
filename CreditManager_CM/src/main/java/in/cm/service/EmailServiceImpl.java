@@ -42,13 +42,6 @@ public class EmailServiceImpl implements EmailService
 					+ "We are confident that you will manage your credit loan responsibly, and we look forward to your continued business.\n"
 					+ "\n"
 					+ "Should you have any questions about your credit loan, please do not hesitate to contact us.\n"
-					
-					+"\n" + "If you are satisfied with our Proposal You can accept it"
-					//+"\n"+ "------------------------------------------"
-					+"\n"+"Your Login Details"
-					+"\n" +"Username: "+customerDetails.getUsername()
-					+"\n"+"Password: "+customerDetails.getPassword()
-					+"\n"+"-------------------------------------------"
 					+ "\n" + "Thank you for your interest in our services.";
 
 			mimemessageHelper.setText(text);

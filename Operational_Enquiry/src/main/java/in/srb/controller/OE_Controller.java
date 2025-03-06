@@ -91,8 +91,10 @@ public class OE_Controller {
 	    return ResponseEntity.ok(customerEnquiries);
 	}
 	
+
 	@GetMapping("/getAllSubmitted/{CustomerId}")
-	public ResponseEntity<Customer> getAllCustomerSubmitted(@PathVariable("CustomerId") int CustomerId) {
+	public ResponseEntity<Customer> getAllCustomerSubmitted(@PathVariable("CustomerId") int CustomerId) 
+	{
 	    String loanUrl = "http://localhost:1003/loan/changestatus/" + CustomerId;
 
 	    // Fetch the list of customers with loan status "Submitted"
@@ -104,16 +106,34 @@ public class OE_Controller {
 	        new ParameterizedTypeReference<Customer>() {}
 	    );
 	    return response;
-	    
+	}
+
+	@GetMapping("/getAllSubmitted")
+	public ResponseEntity<List<Customer>> getAllCustomerSubmitted() {
+	    String loanUrl = "http://localhost:1003/loan/getAllCustomer/Submitted";
+
+	    // Fetch the list of customers with loan status "Submitted"
+	    List<Customer> submittedCustomers = rt.getForObject(loanUrl, List.class);
+
+	    // Update loan status to "Verified" for all customers
+	    if (submittedCustomers != null && !submittedCustomers.isEmpty()) {
+	        for (Customer customer : submittedCustomers) {
+	            customer.setLoanStatus("Verified");
+	        }
+	    }
+
+	    // Return the updated list
+	    return new ResponseEntity<>(submittedCustomers, HttpStatus.OK);
+	
 
 	}
 	
-}
+
 	
 
 	
 	
-	
+}	
 
 
 
