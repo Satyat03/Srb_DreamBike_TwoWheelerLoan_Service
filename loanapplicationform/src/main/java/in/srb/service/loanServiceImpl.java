@@ -279,8 +279,10 @@ public class loanServiceImpl implements LoanServiceI {
 		ledger.setMonthlyEMI(emi);
 
 		// Calculate total amount paid till date
-		double amountPaidTillDate = customer.getLedger().stream().mapToDouble(Ledger::getAmountPaidtillDate).sum()
-				+ payment;
+		double lastAmountPaid = customer.getLedger().isEmpty() ? 0
+				: customer.getLedger().get(customer.getLedger().size() - 1).getAmountPaidtillDate();
+
+		double amountPaidTillDate = lastAmountPaid + payment;
 		ledger.setAmountPaidtillDate(amountPaidTillDate);
 
 		// Calculate remaining amount
