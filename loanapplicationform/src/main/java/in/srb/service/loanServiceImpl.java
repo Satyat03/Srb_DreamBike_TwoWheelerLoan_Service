@@ -1,5 +1,6 @@
 package in.srb.service;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
@@ -11,6 +12,14 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import in.srb.exception.FileInvalideException;
 import in.srb.exception.InvalidAadharcardException;
@@ -40,6 +49,9 @@ public class loanServiceImpl implements LoanServiceI {
 
 	@Autowired
 	LoanRepo lr;
+	@Autowired  // Inject EmailServiceImpl properly
+	EmailServiceImpl emailService;
+
 
 	@Override
 	public Customer saveData(Customer c, MultipartFile panCard, MultipartFile incomeTax, MultipartFile addharCard,
@@ -146,7 +158,7 @@ public class loanServiceImpl implements LoanServiceI {
 		return false;
 	}
 
-	// }
+
 	@Override
 	public List<Customer> getAllCustomer(String loanStatus) {
 
@@ -243,18 +255,248 @@ public class loanServiceImpl implements LoanServiceI {
 		throw new RuntimeException("Customer not found for ID: " + customerId);
 	}
 
-	@Override
+
+	
+
+	public loanServiceImpl(LoanRepo lr) {
+		this.lr = lr;
+	}
+
+
+@Override
+public Customer createleager(int customerId, Double payment) throws Exception {
+    Optional<Customer> byId = lr.findById(customerId);
+    if (!byId.isPresent()) {
+        throw new Exception("Customer with ID " + customerId + " not found.");
+    }
+
+    Customer customer = byId.get();
+    if (customer.getLedger() == null) {
+        customer.setLedger(new ArrayList<>());
+    }
+
+    // Loan Details
+    Double principal = customer.getSl().getLoanAmtSanctioned();
+    Double rateOfInterest = (double) customer.getSl().getRateOfInterest();
+    Integer tenureInYear = customer.getSl().getLoanTenureInYear();
+
+    if (principal == null || rateOfInterest == null || tenureInYear == null) {
+        throw new RuntimeException("Required loan details are missing for Customer ID: " + customerId);
+    }
+
+    int totalMonths = tenureInYear * 12;
+    double monthlyInterestRate = rateOfInterest / 12 / 100;
+    double emi = (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalMonths))
+            / (Math.pow(1 + monthlyInterestRate, totalMonths) - 1);
+    Double payableAmountWithInterest = emi * totalMonths;
+
+    // Create Ledger Entry
+    Ledger ledger = new Ledger();
+    ledger.setLedgerCreatedDate(LocalDate.now().toString());
+    ledger.setTotalLoanAmount(customer.getLoanDisbursement().getTotalAmount());
+    ledger.setPayableAmountwithInterest(payableAmountWithInterest);
+    ledger.setTenure(tenureInYear);
+    ledger.setMonthlyEMI(emi);
+
+    double lastAmountPaid = customer.getLedger().isEmpty() ? 0
+            : customer.getLedger().get(customer.getLedger().size() - 1).getAmountPaidtillDate();
+
+    double amountPaidTillDate = lastAmountPaid + payment;
+    ledger.setAmountPaidtillDate(amountPaidTillDate);
+
+    Double remainingAmount = Math.max(0, payableAmountWithInterest - amountPaidTillDate);
+    ledger.setRemainingAmount(remainingAmount);
+
+    LocalDate lastEmiDate = customer.getLedger().isEmpty() ? LocalDate.now()
+            : LocalDate.parse(customer.getLedger().get(customer.getLedger().size() - 1).getLedgerCreatedDate());
+    LocalDate nextEmiStartDate = lastEmiDate.plusMonths(1);
+    LocalDate nextEmiEndDate = nextEmiStartDate.plusMonths(1);
+    ledger.setNextEmiDatestart(nextEmiStartDate.toString());
+    ledger.setNextEmiDateEnd(nextEmiEndDate.toString());
+
+    long missedEmis = customer.getLedger().stream().filter(l -> "Missed".equals(l.getCurrentMonthEmiStatus()))
+            .count();
+    int defaulterCount = (int) missedEmis;
+    if (payment == 0) {
+        defaulterCount++;
+    }
+    ledger.setDefaulterCount(defaulterCount);
+
+    String previousEmiStatus = customer.getLedger().isEmpty() ? "N/A"
+            : customer.getLedger().get(customer.getLedger().size() - 1).getCurrentMonthEmiStatus();
+    ledger.setPreviousEmitStatus(previousEmiStatus);
+    ledger.setCurrentMonthEmiStatus(payment == 0 ? "Missed" : "Paid");
+
+    LocalDate firstEmiDate = customer.getLedger().isEmpty() ? LocalDate.now()
+            : LocalDate.parse(customer.getLedger().get(0).getLedgerCreatedDate());
+    LocalDate loanEndDate = firstEmiDate.plusYears(tenureInYear);
+    ledger.setLoanEndDate(loanEndDate.toString());
+
+    ledger.setLoanStatus(remainingAmount > 0 ? "Ongoing" : "Completed");
+
+    // Generate PDF
+    byte[] pdfBytes = generateLedgerPdf(ledger);
+    ledger.setLedgerPdf(pdfBytes);
+    
+    // Send email
+    String customerEmail = customer.getCustomerEmail();  // Ensure the Customer entity has an email field
+    String subject = "Loan Ledger Details";
+    String body = "Dear " + customer.getCustomerName() + ",\n\nPlease find your loan ledger details attached as a PDF.\n\nBest regards,\nSrb Insurance";
+    emailService.sendEmailWithAttachment(customerEmail, subject, body, pdfBytes);
+
+
+    customer.getLedger().add(ledger);
+
+    return lr.save(customer);
+}
+
+
+private byte[] generateLedgerPdf(Ledger ledger) 
+{
+    try {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Document document = new Document();
+        PdfWriter.getInstance(document, outputStream);
+        document.open();
+
+        // Adding Title
+        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK);
+        Paragraph title = new Paragraph("Ledger Report", titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        document.add(title);
+        document.add(new Paragraph("\n"));
+
+        // Adding Ledger Details
+        Font textFont = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+        document.add(new Paragraph("Ledger Created Date: " + ledger.getLedgerCreatedDate(), textFont));
+        document.add(new Paragraph("Total Loan Amount: " + ledger.getTotalLoanAmount(), textFont));
+        document.add(new Paragraph("Payable Amount (with Interest): " + ledger.getPayableAmountwithInterest(), textFont));
+        document.add(new Paragraph("Tenure (Years): " + ledger.getTenure(), textFont));
+        document.add(new Paragraph("Monthly EMI: " + ledger.getMonthlyEMI(), textFont));
+        document.add(new Paragraph("Amount Paid Till Date: " + ledger.getAmountPaidtillDate(), textFont));
+        document.add(new Paragraph("Remaining Amount: " + ledger.getRemainingAmount(), textFont));
+        document.add(new Paragraph("Next EMI Start Date: " + ledger.getNextEmiDatestart(), textFont));
+        document.add(new Paragraph("Next EMI End Date: " + ledger.getNextEmiDateEnd(), textFont));
+        document.add(new Paragraph("Loan End Date: " + ledger.getLoanEndDate(), textFont));
+        document.add(new Paragraph("Loan Status: " + ledger.getLoanStatus(), textFont));
+        document.add(new Paragraph("Current Month EMI Status: " + ledger.getCurrentMonthEmiStatus(), textFont));
+
+        document.close();
+        return outputStream.toByteArray();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+
+
+
+/**	@Override
 	public Customer createleager(int customerId, Double payment) throws Exception {
+
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+		Optional<Customer> byId = lr.findById(customerId);
+		if (!byId.isPresent()) {
+			throw new Exception("Customer with ID " + customerId + " not found.");
+		}
+
+		Customer customer = byId.get();
+
+		// Initialize ledger list if null
+		if (customer.getLedger() == null) {
+			customer.setLedger(new ArrayList<>());
+		}
+
+		// Fetch loan details
+		Double principal = customer.getSl().getLoanAmtSanctioned();
+		Double rateOfInterest = (double) customer.getSl().getRateOfInterest();
+		Integer tenureInYear = customer.getSl().getLoanTenureInYear();
+
+		if (principal == null || rateOfInterest == null || tenureInYear == null) {
+			throw new RuntimeException("Required loan details are missing for Customer ID: " + customerId);
+		}
+
+		int totalMonths = tenureInYear * 12;
+		double monthlyInterestRate = rateOfInterest / 12 / 100;
+
+		// EMI Calculation (Reducing Balance Method)
+		double emi = (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalMonths))
+				/ (Math.pow(1 + monthlyInterestRate, totalMonths) - 1);
+		Double payableAmountWithInterest = emi * totalMonths; // Total payable amount
+
+		// Create new Ledger entry
+		Ledger ledger = new Ledger();
+		ledger.setLedgerCreatedDate(LocalDate.now().toString());
+		ledger.setTotalLoanAmount(customer.getLoanDisbursement().getTotalAmount());
+		ledger.setPayableAmountwithInterest(payableAmountWithInterest);
+		ledger.setTenure(tenureInYear);
+		ledger.setMonthlyEMI(emi);
+
+		// Calculate total amount paid till date
+		double lastAmountPaid = customer.getLedger().isEmpty() ? 0
+				: customer.getLedger().get(customer.getLedger().size() - 1).getAmountPaidtillDate();
+
+		double amountPaidTillDate = lastAmountPaid + payment;
+		ledger.setAmountPaidtillDate(amountPaidTillDate);
+
+		// Calculate remaining amount
+//		Double remainingAmount = payableAmountWithInterest - amountPaidTillDate;
+		Double remainingAmount = Math.max(0, payableAmountWithInterest - amountPaidTillDate);
+
+		ledger.setRemainingAmount(remainingAmount);
+
+		// Set EMI Dates
+		LocalDate lastEmiDate = customer.getLedger().isEmpty() ? LocalDate.now()
+				: LocalDate.parse(customer.getLedger().get(customer.getLedger().size() - 1).getLedgerCreatedDate());
+		LocalDate nextEmiStartDate = lastEmiDate.plusMonths(1);
+		LocalDate nextEmiEndDate = nextEmiStartDate.plusMonths(1);
+		ledger.setNextEmiDatestart(nextEmiStartDate.toString());
+		ledger.setNextEmiDateEnd(nextEmiEndDate.toString());
+
+		// Defaulter Count Tracking
+		long missedEmis = customer.getLedger().stream().filter(l -> "Missed".equals(l.getCurrentMonthEmiStatus()))
+				.count();
+		int defaulterCount = (int) missedEmis;
+		if (payment == 0) {
+			defaulterCount++;
+		}
+		ledger.setDefaulterCount(defaulterCount);
+
+		// Set EMI status
+		String previousEmiStatus = customer.getLedger().isEmpty() ? "N/A"
+				: customer.getLedger().get(customer.getLedger().size() - 1).getCurrentMonthEmiStatus();
+		ledger.setPreviousEmitStatus(previousEmiStatus);
+		ledger.setCurrentMonthEmiStatus(payment == 0 ? "Missed" : "Paid");
+
+		// Loan end date calculation
+		LocalDate firstEmiDate = customer.getLedger().isEmpty() ? LocalDate.now()
+				: LocalDate.parse(customer.getLedger().get(0).getLedgerCreatedDate());
+		LocalDate loanEndDate = firstEmiDate.plusYears(tenureInYear);
+		ledger.setLoanEndDate(loanEndDate.toString());
+
+		// Set loan status
+		ledger.setLoanStatus(remainingAmount > 0 ? "Ongoing" : "Completed");
+
+		// Add ledger entry
+		customer.getLedger().add(ledger);
+
+		// Save customer with updated ledger
+		return lr.save(customer);
+
+	}**/
 
 
 
 	
  
 	    
-	}
+	
 
 
 
+
+}
+}
