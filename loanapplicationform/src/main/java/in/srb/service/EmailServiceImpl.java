@@ -23,7 +23,7 @@ public class EmailServiceImpl {
 	        helper.setTo(toEmail);
 	        helper.setSubject(subject);
 	        helper.setText(body);
-	        helper.setFrom("saurabhtonge18@gmail.com");
+	        helper.setFrom("bhairavigandole92@gmail.com");
 
 	        // Attach PDF
 	        InputStreamSource pdfSource = new ByteArrayResource(pdfBytes);
