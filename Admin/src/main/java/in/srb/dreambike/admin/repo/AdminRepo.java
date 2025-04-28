@@ -10,5 +10,6 @@ import in.srb.dreambike.admin.model.AdminDetails;
 public interface AdminRepo extends JpaRepository<AdminDetails, Integer> {
 
 	
+	
 
 }
