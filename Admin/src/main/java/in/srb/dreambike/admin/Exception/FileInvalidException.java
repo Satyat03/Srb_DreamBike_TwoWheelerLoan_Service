@@ -1,0 +1,10 @@
+package in.srb.dreambike.admin.Exception;
+
+public class FileInvalidException extends RuntimeException
+{
+
+	public FileInvalidException(String message)
+	{
+		super(message);
+	}
+}
