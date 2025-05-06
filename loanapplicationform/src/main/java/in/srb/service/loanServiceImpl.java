@@ -31,6 +31,7 @@ import in.srb.exception.SignatureInvalidException;
 import in.srb.model.AllPersonalDocuments;
 import in.srb.model.Customer;
 import in.srb.model.CustomerVerification;
+import in.srb.model.EMICalculator;
 import in.srb.model.Ledger;
 import in.srb.model.LoanDisbursement;
 import in.srb.repo.LoanRepo;
@@ -257,11 +258,15 @@ public Customer createleager(int customerId, Double payment) throws Exception {
     if (!byId.isPresent()) {
         throw new Exception("Customer with ID " + customerId + " not found.");
     }
+    
+    
 
     Customer customer = byId.get();
     if (customer.getLedger() == null) {
         customer.setLedger(new ArrayList<>());
     }
+    
+   
 
     // Loan Details
     Double principal = customer.getSl().getLoanAmtSanctioned();
@@ -272,11 +277,19 @@ public Customer createleager(int customerId, Double payment) throws Exception {
         throw new RuntimeException("Required loan details are missing for Customer ID: " + customerId);
     }
 
+    
+    //double monthlyInterestRate = rateOfInterest / 12 / 100;
+  
+    
+    
+    EMICalculator instance = EMICalculator.getInstance();
+    double emi = instance.calculateEMI(principal, rateOfInterest, tenureInYear);                                                                                                        
+
+
+//    double emi = (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalMonths))
+//            / (Math.pow(1 + monthlyInterestRate, totalMonths) - 1);
     int totalMonths = tenureInYear * 12;
-    double monthlyInterestRate = rateOfInterest / 12 / 100;
-    double emi = (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalMonths))
-            / (Math.pow(1 + monthlyInterestRate, totalMonths) - 1);
-    Double payableAmountWithInterest = emi * totalMonths;
+   Double payableAmountWithInterest = emi * totalMonths;
 
     // Create Ledger Entry
     Ledger ledger = new Ledger();
@@ -291,10 +304,10 @@ public Customer createleager(int customerId, Double payment) throws Exception {
 
     double amountPaidTillDate = lastAmountPaid + payment;
     ledger.setAmountPaidtillDate(amountPaidTillDate);
-
+   
     Double remainingAmount = Math.max(0, payableAmountWithInterest - amountPaidTillDate);
     ledger.setRemainingAmount(remainingAmount);
-
+ 
     LocalDate lastEmiDate = customer.getLedger().isEmpty() ? LocalDate.now()
             : LocalDate.parse(customer.getLedger().get(customer.getLedger().size() - 1).getLedgerCreatedDate());
     LocalDate nextEmiStartDate = lastEmiDate.plusMonths(1);
