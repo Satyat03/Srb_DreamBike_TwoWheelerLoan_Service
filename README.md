@@ -22,3 +22,18 @@ To run the project locally, ensure you have the following:
 - Eclipse
 - Database server (MySQL) installed and configured
 
+
+## Swagger Api
+
+| Request             | microservice                        |  
+|---------------------|-------------------------------------|
+| [User Authentication](http://localhost:1000/swagger-ui/index.html#/) | Allows users to log in and register | 
+| [Data Visualization](http://localhost:1001/swagger-ui/index.html#/)  | Displays charts and graphs          | 
+| [API Integration ](http://localhost:1003/swagger-ui/index.html#/)    | Connects to external APIs           |
+| [API Integration   ](http://localhost:1004/swagger-ui/index.html#/)  | Connects to external APIs           |
+| [API Integration](http://localhost:1006/swagger-ui/index.html#/)     | Connects to external APIs           |
+
+
+
+  
+
