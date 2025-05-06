@@ -2,6 +2,7 @@ package in.srb.service;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,14 @@ import in.srb.model.EMICalculator;
 import in.srb.model.Ledger;
 import in.srb.model.LoanDisbursement;
 import in.srb.repo.LoanRepo;
+
+
+
+
+
+
+import java.io.ByteArrayOutputStream;
+
 
 @Service
 public class loanServiceImpl implements LoanServiceI {
@@ -150,7 +159,7 @@ public class loanServiceImpl implements LoanServiceI {
 		return false;
 	}
 
-	// }
+
 	@Override
 	public List<Customer> getAllCustomer(String loanStatus) {
 
@@ -246,6 +255,9 @@ public class loanServiceImpl implements LoanServiceI {
 		// You can throw an exception or handle the null case gracefully
 		throw new RuntimeException("Customer not found for ID: " + customerId);
 	}
+
+
+	
 
 	public loanServiceImpl(LoanRepo lr) {
 		this.lr = lr;
@@ -352,7 +364,8 @@ public Customer createleager(int customerId, Double payment) throws Exception {
 }
 
 
-private byte[] generateLedgerPdf(Ledger ledger) {
+private byte[] generateLedgerPdf(Ledger ledger) 
+{
     try {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Document document = new Document();
@@ -388,8 +401,15 @@ private byte[] generateLedgerPdf(Ledger ledger) {
         return null;
     }
 
+
+
 /**	@Override
 	public Customer createleager(int customerId, Double payment) throws Exception {
+
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 		Optional<Customer> byId = lr.findById(customerId);
 		if (!byId.isPresent()) {
@@ -480,6 +500,16 @@ private byte[] generateLedgerPdf(Ledger ledger) {
 		return lr.save(customer);
 
 	}**/
+
+
+
+	
+ 
+	    
+	
+
+
+
 
 }
 }
