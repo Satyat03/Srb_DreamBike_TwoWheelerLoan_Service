@@ -31,11 +31,11 @@ public class CibilController {
             c.setCibilRemark("Excellent !!");
         } else if (cibilscore >= 761 && cibilscore <= 800) {
             c.setCibilRemark("Very Good");
-        } else if (cibilscore >= 701 && cibilscore <= 760) {
+        } else if (cibilscore >= 600 && cibilscore <= 760) {
             c.setCibilRemark("Good");
-        } else if (cibilscore >= 601 && cibilscore <= 700) {
+        } else if (cibilscore >= 400 && cibilscore <= 600) {
             c.setCibilRemark("Average");
-        } else if (cibilscore >= 300 && cibilscore <= 600) {
+        } else if (cibilscore >= 300 && cibilscore <= 400) {
             c.setCibilRemark("Need Help !!");
         }
 

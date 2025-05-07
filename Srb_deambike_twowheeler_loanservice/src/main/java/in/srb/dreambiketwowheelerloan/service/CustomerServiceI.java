@@ -28,4 +28,7 @@ public interface CustomerServiceI {
 
     public List<CustomerEnquiry> findRejectedStatus();
 
+
+	public CustomerEnquiry getSingleDataByStatus(String enquiryStatus);
+
 }

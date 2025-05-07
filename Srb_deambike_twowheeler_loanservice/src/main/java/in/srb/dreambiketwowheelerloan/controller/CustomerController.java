@@ -100,6 +100,18 @@ public class CustomerController {
 		return new ResponseEntity<List<CustomerEnquiry>>(status,HttpStatus.OK);
 	
 	}
+	@GetMapping("/getStatusSingle/{enquiryStatus}")
+	public ResponseEntity<CustomerEnquiry> getSingleEnquiryStatus(@PathVariable("enquiryStatus") String enquiryStatus) {
+	    CustomerEnquiry enquiry = csi.getSingleDataByStatus(enquiryStatus);
+
+	    if (enquiry == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	            .body(null);
+	    }
+
+	    return new ResponseEntity<>(enquiry, HttpStatus.OK);
+	}
+
 
 	@PostMapping("/email")
 	public String sendMail(@RequestBody EmailSender e)

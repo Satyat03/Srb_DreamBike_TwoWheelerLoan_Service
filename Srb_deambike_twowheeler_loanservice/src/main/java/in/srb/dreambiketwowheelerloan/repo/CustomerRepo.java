@@ -26,6 +26,8 @@ public interface CustomerRepo extends JpaRepository<CustomerEnquiry, Integer> {
 	
     @Query("SELECT ce FROM CustomerEnquiry ce WHERE ce.enquiryStatus = 'Rejected'")
     public List<CustomerEnquiry> findRejected();
+
+	public CustomerEnquiry findByenquiryStatus(String enquiryStatus);
 	
 }
 

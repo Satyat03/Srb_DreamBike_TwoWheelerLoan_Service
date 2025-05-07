@@ -184,4 +184,11 @@ public class CustomerServiceImpl implements CustomerServiceI {
 		return rejected;
 	}
 
+	@Override
+	public CustomerEnquiry getSingleDataByStatus(String enquiryStatus) {
+		// TODO Auto-generated method stub
+		CustomerEnquiry customerEnquiry=cr.findByenquiryStatus(enquiryStatus);
+		return customerEnquiry;
+	}
+
 }
