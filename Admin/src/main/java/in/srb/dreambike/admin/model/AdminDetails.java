@@ -25,7 +25,7 @@ public class AdminDetails {
 	private int empAge;
 	
 	private String username;
-	private String passwoed;
+	private String password;
 	@Lob
 	@Column(length=999999999)
 	private byte[] empImage;

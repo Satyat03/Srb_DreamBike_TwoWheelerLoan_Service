@@ -64,7 +64,7 @@ public class AdminServiceImpl implements AdminServiceI {
                 existingAdmin.setEmpSalary(updatedAdmin.getEmpSalary());
                 existingAdmin.setEmpAge(updatedAdmin.getEmpAge());
                 existingAdmin.setUsername(updatedAdmin.getUsername());
-                existingAdmin.setPasswoed(updatedAdmin.getPasswoed());
+                existingAdmin.setPassword(updatedAdmin.getPassword());
                 existingAdmin.setUsertype(updatedAdmin.getUsertype());
 
                 // Only update image if a new one is provided
@@ -83,4 +83,15 @@ public class AdminServiceImpl implements AdminServiceI {
         }
         return null;
     }
+
+	@Override
+	public AdminDetails loginCheck(String username, String password) {
+		
+		return adminRepo.findByUsernameAndPassword(username, password);
+	}
+
+	@Override
+	public void deleteData(int empId) {
+		adminRepo.deleteById(empId);
+	}
 }

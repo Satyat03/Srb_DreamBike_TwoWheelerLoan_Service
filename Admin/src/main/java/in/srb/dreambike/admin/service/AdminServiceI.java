@@ -18,4 +18,8 @@ public interface AdminServiceI {
 	 // updated method
     public AdminDetails updateData(int empId, String adminJson, MultipartFile empImage, MultipartFile empPancard);
 
+	public AdminDetails loginCheck(String username, String password);
+
+	public void deleteData(int empId);
+
 }

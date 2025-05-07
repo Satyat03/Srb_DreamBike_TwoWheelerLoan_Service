@@ -15,7 +15,7 @@ public class CustomerEnquiry {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int CustomerId;
+	private int customerId;
 	private String firstName;
 	private String lastName;
 	private int age;

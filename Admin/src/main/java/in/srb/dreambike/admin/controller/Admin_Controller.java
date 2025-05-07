@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,7 @@ import in.srb.dreambike.admin.service.AdminServiceI;
 
 @RequestMapping("/admin")
 @RestController
+@CrossOrigin("*")
 public class Admin_Controller {
 
 	@Autowired
@@ -51,7 +54,7 @@ public class Admin_Controller {
 		
 		AdminDetails ad=serviceI.getSingleEmp(empId);
 		
-		return new ResponseEntity<AdminDetails>(ad,HttpStatus.FOUND);
+		return new ResponseEntity<AdminDetails>(ad,HttpStatus.OK);
 		
 	}
 	@GetMapping("/getAll")
@@ -69,6 +72,20 @@ public class Admin_Controller {
 	) {
 	    AdminDetails updatedAdmin = serviceI.updateData(empId, adminJson, empImage, empPancard);
 	    return new ResponseEntity<>(updatedAdmin, HttpStatus.OK);
+	}
+	
+	@GetMapping("/adminLogin/{username}/{password}")
+	public ResponseEntity<AdminDetails> userLogin(@PathVariable String username,
+			@PathVariable String password){
+		AdminDetails a=serviceI.loginCheck(username,password);
+				return new ResponseEntity<AdminDetails>(a,HttpStatus.OK);
+		
+	}
+	@DeleteMapping("/{empId}")
+	public ResponseEntity<String> deleteEmp(@PathVariable int empId){
+		serviceI.deleteData(empId);
+		return new ResponseEntity<String>("Employee Deleted..!!",HttpStatus.OK);
+		
 	}
 
 	
