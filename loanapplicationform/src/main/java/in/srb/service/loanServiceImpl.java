@@ -182,8 +182,8 @@ public class loanServiceImpl implements LoanServiceI {
 
 		}
 
-		customer.setLoanStatus("Sanctioned");
-		customer.getSl().setStatus("Accepted");
+//		customer.setLoanStatus("Sanctioned");
+//		customer.getSl().setStatus("Accepted");
 
 		return lr.save(customer);
 
@@ -498,5 +498,34 @@ private byte[] generateLedgerPdf(Ledger ledger)
 
 
 
+}
+
+@Override
+public Customer customerAcceptance(String status, int id) {
+	// TODO Auto-generated method stub
+	Optional<Customer> byId = lr.findById(id);
+	if(byId.isPresent()) {
+		Customer customer = byId.get();
+		if(status.equals("Accepted")) {
+			customer.setLoanStatus("Sanctioned");
+		customer.getSl().setStatus("Accepted");
+			
+		}
+		else {
+			customer.getSl().setStatus("Rejected");
+			customer.setLoanStatus("NotSanctioned");
+			
+		}
+		
+		lr.save(customer);
+	}
+	return null;
+}
+
+@Override
+public Customer getCustomerById(int id) {
+	// TODO Auto-generated method stub
+	Customer customer = lr.findById(id).get();
+	return customer;
 }
 }

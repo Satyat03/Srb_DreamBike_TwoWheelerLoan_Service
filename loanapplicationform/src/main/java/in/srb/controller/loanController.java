@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import in.srb.service.LoanServiceI;
 
 @RestController
 @RequestMapping("/loan")
+@CrossOrigin("*")
 public class loanController {
 
     @Autowired
@@ -69,6 +71,7 @@ public class loanController {
 		for(CustomerEnquiry ce :body) {
 			
 		//	System.out.println(ce);
+		
 			
 			if(ce.getCustomerId()==CustomerId) {
 				//c.setCustomerId(ce.getCustomerId());
@@ -80,12 +83,16 @@ public class loanController {
 				c.setCustomerAdharCard(ce.getAdharcard());
 				c.setCustomerPanCard(ce.getPancardno());
 				c.setCibilScore(ce.getCi());
-				
+			
 				c.setLoanStatus("Submitted");
+				c.setUsertype("Customer");
 				//System.out.println(jsonData);
 				Customer save =lsi.saveData(c,addressProof,panCard,incomeTax,addharCard,photo,signature,bankCheque,salarySlips);
+				if(save!=null) {
+				rt.put("http://localhost:1000/customer/update/"+ce.getCustomerId(), ce);
+				}
 				
-				return new ResponseEntity<Customer>(save,HttpStatus.CREATED);
+				return new ResponseEntity<Customer>(save,HttpStatus.OK);
 }
 			
 		}
@@ -107,6 +114,11 @@ public class loanController {
 		Customer customer=lsi.getCustomer(username,password);
 	 return new ResponseEntity<Customer>(customer,HttpStatus.ACCEPTED);
 		
+	}
+	@PutMapping("/customerResponse/{id}/{status}")
+	public ResponseEntity<Customer> customerAcceptOrReject(@PathVariable("status") String status,@PathVariable("id") int id){
+		Customer customer=lsi.customerAcceptance(status,id);
+		return new ResponseEntity<Customer>(customer,HttpStatus.OK);
 	}
 	
 	@PutMapping("/loanDisburse/{CustomerId}")
@@ -137,6 +149,12 @@ public class loanController {
 		
 		
 		return cs;
+		
+	}
+	@GetMapping("/getCustomer/{id}")
+	public Customer getCustomerById(@PathVariable("id") int id) {
+		Customer customer=lsi.getCustomerById(id);
+		return customer;
 		
 	}
 	

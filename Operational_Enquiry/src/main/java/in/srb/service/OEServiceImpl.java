@@ -27,5 +27,11 @@ public class OEServiceImpl implements OEServiceI{
 		or.save(c);
 		
 	}
+
+	@Override
+	public CustomerEnquiry savedataNew(CustomerEnquiry targetEnquiry) {
+		// TODO Auto-generated method stub
+		return or.save(targetEnquiry);
+	}
 	
 }

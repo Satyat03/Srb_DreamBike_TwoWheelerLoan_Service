@@ -36,7 +36,7 @@ public class CMServiceImpl implements CMserviceI{
 	
 	
 	@Override
-	public Customer updateSanction(int customerId, Customer cs) {
+	public Customer updateSanction(int customerId, int tenure) {
 		
 //		cmr.save(cs);
 //		
@@ -99,6 +99,7 @@ public class CMServiceImpl implements CMserviceI{
 	            c.getSl().setApplicantName(c.getCustomerName());
 	            c.getSl().setContactDetails(c.getCustomerMobileNumber());
 	            c.getSl().setLoanRequired(c.getCustomerTotalLoanRequired());
+	            c.setLoanStatus("MailSent");
 	            
 	            c.setUsername(c.getCustomerEmail());
 	            Random random=new Random();
@@ -135,7 +136,7 @@ public class CMServiceImpl implements CMserviceI{
 	            // Correct EMI calculation formula
 	            double P = sanctionedAmount;  // Loan Amount
 	            double r = (interestRate / 12) / 100;  // Monthly Interest Rate
-	            int n = cs.getSl().getLoanTenureInYear() * 12;  // Number of Months
+	            int n = tenure * 12;  // Number of Months
 
 	            if (n > 0 && r > 0) {
 	                double emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
@@ -148,7 +149,7 @@ public class CMServiceImpl implements CMserviceI{
 	            c.getSl().setInterestType("Compound Interest");
 	            c.getSl().setModeOfPayment("Online");
 	            c.getSl().setStatus("Created");
-	            c.getSl().setLoanTenureInYear(cs.getSl().getLoanTenureInYear());
+	            c.getSl().setLoanTenureInYear(tenure);
 
 	            String title = "ABC Finance Ltd.";
 

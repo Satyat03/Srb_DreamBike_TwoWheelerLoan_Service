@@ -3,6 +3,7 @@ package in.cm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import in.cm.service.CMserviceI;
 
 @RestController
 @RequestMapping("/cm")
+@CrossOrigin("*")
 public class CmController {
 
 	@Autowired
@@ -27,16 +29,16 @@ public class CmController {
 		return "success!";
 	}
 		
-		@PutMapping("/addsanction/{CustomerId}")
-		public ResponseEntity<Customer> updatesanction(@PathVariable("CustomerId") int CustomerId, @RequestBody Customer cs)
+		@PutMapping("/addsanction/{CustomerId}/{tenure}")
+		public ResponseEntity<Customer> updatesanction(@PathVariable("CustomerId") int CustomerId, @PathVariable("tenure") int tenure)
 		{
 			
 
-			Customer customer=cmi.updateSanction(CustomerId,cs);
+			Customer customer=cmi.updateSanction(CustomerId,tenure);
 
 			//Customer updateSanction = cmi.updateSanction(CustomerId,cs);
 
-			return new ResponseEntity<Customer>(customer,HttpStatus.CREATED);
+			return new ResponseEntity<Customer>(customer,HttpStatus.OK);
 
 			
 		}

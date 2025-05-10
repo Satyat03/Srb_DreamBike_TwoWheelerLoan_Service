@@ -119,7 +119,7 @@ public class CustomerController {
 	public ResponseEntity<List<CustomerEnquiry>> approvedCustomer(){
 		List<CustomerEnquiry> approvedStatus = csi.findApprovedStatus();
 		
-		return new ResponseEntity<List<CustomerEnquiry>>(approvedStatus,HttpStatus.FOUND);
+		return new ResponseEntity<List<CustomerEnquiry>>(approvedStatus,HttpStatus.OK);
 		
 	}
 	@GetMapping("/rejected")

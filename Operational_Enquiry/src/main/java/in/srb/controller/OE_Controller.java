@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import in.srb.model.Cibil;
@@ -102,7 +103,68 @@ public class OE_Controller {
 	    );
 	    return response;
 	}
-	
+	@GetMapping("/cibilgen/{id}")
+	public ResponseEntity<?> cibilGenerateById(@PathVariable int id) {
+	    String statusCheckUrl = "http://localhost:1000/customer/getStatus/Pending";
+
+	    try {
+	    	ResponseEntity<String> response = rt.exchange(
+	    		    statusCheckUrl,
+	    		    HttpMethod.GET,
+	    		    null,
+	    		    String.class
+	    		);
+
+	    		ObjectMapper mapper = new ObjectMapper();
+	    		List<CustomerEnquiry> customerEnquiries = mapper.readValue(
+	    		    response.getBody(),
+	    		    new TypeReference<List<CustomerEnquiry>>() {}
+	    		);
+
+
+	        if (customerEnquiries == null || customerEnquiries.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No pending customer enquiries found.");
+	        }
+
+	        // Find the enquiry with given ID
+	        CustomerEnquiry targetEnquiry = customerEnquiries.stream()
+	            .filter(e -> e.getCustomerId() == id)
+	            .findFirst()
+	            .orElse(null);
+
+	        if (targetEnquiry == null) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No pending customer enquiry found with ID: " + id);
+	        }
+
+	        // If CIBIL object is missing, create one
+	        if (targetEnquiry.getCi() == null) {
+	            targetEnquiry.setCi(new Cibil());
+	            //targetEnquiry.getCi().setCibilid(0L); // optionally set default ID
+	        }
+
+	        // Fetch CIBIL score
+	        String cibilUrl = "http://localhost:1001/cibil/" + targetEnquiry.getCi().getCibilid();
+	        Cibil cibilScore = rt.getForObject(cibilUrl, Cibil.class);
+	        targetEnquiry.setCi(cibilScore);
+
+	        // Update enquiry status
+	        targetEnquiry.setEnquiryStatus(cibilScore.getStatus());
+
+	        // Save updated entry
+	        CustomerEnquiry newEnquiry=oei.savedataNew(targetEnquiry);
+
+	        return ResponseEntity.ok(newEnquiry);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	            .body("Error processing customer enquiry with ID " + id + ": " + e.getMessage());
+	    }
+	}
+
+
 	
 	}
 

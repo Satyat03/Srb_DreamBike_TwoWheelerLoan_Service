@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.srb.cibil.app.model.Cibil;
 
 @RestController
 @RequestMapping("/cibil")
+@CrossOrigin("*")
 public class CibilController {
 
 	@GetMapping("/{cibilid}")
@@ -31,11 +33,11 @@ public class CibilController {
             c.setCibilRemark("Excellent !!");
         } else if (cibilscore >= 761 && cibilscore <= 800) {
             c.setCibilRemark("Very Good");
-        } else if (cibilscore >= 701 && cibilscore <= 760) {
+        } else if (cibilscore >= 601 && cibilscore <= 760) {
             c.setCibilRemark("Good");
-        } else if (cibilscore >= 601 && cibilscore <= 700) {
+        } else if (cibilscore >= 351 && cibilscore <= 600) {
             c.setCibilRemark("Average");
-        } else if (cibilscore >= 300 && cibilscore <= 600) {
+        } else if (cibilscore >= 300 && cibilscore <= 350) {
             c.setCibilRemark("Need Help !!");
         }
 
