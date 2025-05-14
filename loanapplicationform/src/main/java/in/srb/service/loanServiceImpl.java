@@ -2,6 +2,7 @@ package in.srb.service;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +35,14 @@ import in.srb.model.CustomerVerification;
 import in.srb.model.Ledger;
 import in.srb.model.LoanDisbursement;
 import in.srb.repo.LoanRepo;
+
+
+
+
+
+
+import java.io.ByteArrayOutputStream;
+
 
 @Service
 public class loanServiceImpl implements LoanServiceI {
@@ -149,7 +158,7 @@ public class loanServiceImpl implements LoanServiceI {
 		return false;
 	}
 
-	// }
+
 	@Override
 	public List<Customer> getAllCustomer(String loanStatus) {
 
@@ -173,8 +182,8 @@ public class loanServiceImpl implements LoanServiceI {
 
 		}
 
-		customer.setLoanStatus("Sanctioned");
-		customer.getSl().setStatus("Accepted");
+//		customer.setLoanStatus("Sanctioned");
+//		customer.getSl().setStatus("Accepted");
 
 		return lr.save(customer);
 
@@ -245,6 +254,9 @@ public class loanServiceImpl implements LoanServiceI {
 		// You can throw an exception or handle the null case gracefully
 		throw new RuntimeException("Customer not found for ID: " + customerId);
 	}
+
+
+	
 
 	public loanServiceImpl(LoanRepo lr) {
 		this.lr = lr;
@@ -339,7 +351,8 @@ public Customer createleager(int customerId, Double payment) throws Exception {
 }
 
 
-private byte[] generateLedgerPdf(Ledger ledger) {
+private byte[] generateLedgerPdf(Ledger ledger) 
+{
     try {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Document document = new Document();
@@ -375,8 +388,15 @@ private byte[] generateLedgerPdf(Ledger ledger) {
         return null;
     }
 
+
+
 /**	@Override
 	public Customer createleager(int customerId, Double payment) throws Exception {
+
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 		Optional<Customer> byId = lr.findById(customerId);
 		if (!byId.isPresent()) {
@@ -468,5 +488,44 @@ private byte[] generateLedgerPdf(Ledger ledger) {
 
 	}**/
 
+
+
+	
+ 
+	    
+	
+
+
+
+
+}
+
+@Override
+public Customer customerAcceptance(String status, int id) {
+	// TODO Auto-generated method stub
+	Optional<Customer> byId = lr.findById(id);
+	if(byId.isPresent()) {
+		Customer customer = byId.get();
+		if(status.equals("Accepted")) {
+			customer.setLoanStatus("Sanctioned");
+		customer.getSl().setStatus("Accepted");
+			
+		}
+		else {
+			customer.getSl().setStatus("Rejected");
+			customer.setLoanStatus("NotSanctioned");
+			
+		}
+		
+		lr.save(customer);
+	}
+	return null;
+}
+
+@Override
+public Customer getCustomerById(int id) {
+	// TODO Auto-generated method stub
+	Customer customer = lr.findById(id).get();
+	return customer;
 }
 }

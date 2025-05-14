@@ -10,4 +10,7 @@ public interface OEServiceI {
 	public List<CustomerEnquiry> savedata(CustomerEnquiry cs);
 	 
 	public void savecustomer(Customer c);
+
+	public CustomerEnquiry savedataNew(CustomerEnquiry targetEnquiry);
+	
 }

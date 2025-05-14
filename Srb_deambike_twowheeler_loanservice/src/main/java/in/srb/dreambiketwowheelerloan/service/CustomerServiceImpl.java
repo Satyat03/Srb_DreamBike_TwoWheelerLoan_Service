@@ -77,7 +77,7 @@ public class CustomerServiceImpl implements CustomerServiceI {
         if(adhar.length()!=12) {
         	throw new AdharCardInvalidException("Inavlid Adhar Card ");
         }
-        
+       
 		
 		 cr.save(c);
 		
@@ -121,7 +121,7 @@ public class CustomerServiceImpl implements CustomerServiceI {
 	        if(adhar.length()!=12) {
 	        	throw new AdharCardInvalidException("Inavlid Adhar Card ");
 	        }
-	        
+	        c.setEnquiryStatus("FormSubmitted"); 
 		
 		CustomerEnquiry ce = cr.save(c);
 		

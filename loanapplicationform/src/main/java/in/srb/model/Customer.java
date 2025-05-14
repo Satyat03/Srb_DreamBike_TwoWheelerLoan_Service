@@ -20,6 +20,7 @@ public class Customer {
     private Integer CustomerId;
 	private String username;
 	private String password;
+	private String usertype;
 	
     private String customerName;
     private String customerMobileNumber;
