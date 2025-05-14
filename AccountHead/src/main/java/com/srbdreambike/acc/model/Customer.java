@@ -3,6 +3,8 @@
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -51,7 +53,7 @@ public class Customer {
     private GuarantorDetails guarantorDetails;   
     //@OneToOne(cascade = CascadeType.ALL)// One-to-One
     private LoanDisbursement loanDisbursement;    
-//    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Ledger> ledger;         
    // @OneToOne(cascade = CascadeType.ALL)// One-to-Many
     private SanctionLetter sl;    

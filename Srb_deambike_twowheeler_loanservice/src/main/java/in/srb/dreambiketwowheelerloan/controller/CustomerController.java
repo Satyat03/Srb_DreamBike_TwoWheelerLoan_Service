@@ -1,8 +1,9 @@
-  package in.srb.dreambiketwowheelerloan.controller;
-
+package in.srb.dreambiketwowheelerloan.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
 import in.srb.dreambiketwowheelerloan.model.Cibil;
 import in.srb.dreambiketwowheelerloan.model.CustomerEnquiry;
 import in.srb.dreambiketwowheelerloan.model.EmailSender;
@@ -28,110 +30,109 @@ import in.srb.dreambiketwowheelerloan.utility.EmailService;
 @CrossOrigin("*")
 public class CustomerController {
 
-	@Autowired
-	EmailService service;
-	@Value("${spring.mail.username}")
-	String from;
-	
-	
-	@Autowired
-	CustomerServiceI csi;
-	
-	@Autowired
-	RestTemplate rs;
-	
-	
-	@PostMapping("/add")
-	public ResponseEntity<String> createCustomer(@RequestBody CustomerEnquiry cs) 
-	{
-		cs.setEnquiryStatus("Pending");	
-	
-		csi.savedata(cs);
-		
-		return new ResponseEntity<String>("Data Added Successfully !!",HttpStatus.CREATED);
-		
-	}
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
-	@GetMapping("/getAll")
-	public ResponseEntity<List<CustomerEnquiry>> getAllData(){
-		List<CustomerEnquiry> list=csi.getAllCustomerEnquiryData();
-		return new ResponseEntity<List<CustomerEnquiry>>(list,HttpStatus.OK);
-	}
-	@PutMapping("/update/{CustomerId}")
-	public ResponseEntity<CustomerEnquiry> updatedata(@RequestBody CustomerEnquiry c,@PathVariable int CustomerId){
-		CustomerEnquiry ce=csi.updateCustomerEnquiryData(c,CustomerId);
-		return new ResponseEntity<CustomerEnquiry>(ce,HttpStatus.ACCEPTED);
-	}
-	
+    @Autowired
+    EmailService service;
 
-	
+    @Value("${spring.mail.username}")
+    String from;
 
-	@DeleteMapping("/deleteById/{CustomerId}")
-	public ResponseEntity<String> deleteCustomerById(@PathVariable int CustomerId){
-		String string=csi.deleteCustomer(CustomerId);
-		return new ResponseEntity<String>(string,HttpStatus.ACCEPTED);
-		
-	}
-	
-	@PutMapping("updateCibilStatus/{CustomerId}")
-	public ResponseEntity<CustomerEnquiry> updateCibilStatus(@PathVariable ("CustomerId")int CustomerId){
-		CustomerEnquiry customer=csi.getCustomer(CustomerId);
-		String cibilurl="http://localhost:1001/cibil/"+customer.getCi().getCibilid();
-		Cibil cibil= rs.getForObject(cibilurl, Cibil.class);
-		customer.setCi(cibil);
-		
-		CustomerEnquiry customerEnquiry=csi.updateCibilStatus(customer);
-		return new ResponseEntity<CustomerEnquiry>(customerEnquiry,HttpStatus.CREATED);
-		
-	}
-	
-	@GetMapping("/getby/{CustomerId}")
-	public ResponseEntity<CustomerEnquiry> getSingle(@PathVariable ("CustomerId")int CustomerId )
-	{
-		CustomerEnquiry ce=csi.getSingleRecord(CustomerId);
-		
-		return new ResponseEntity<CustomerEnquiry>(ce,HttpStatus.OK);
-		
-		
-	}
+    @Autowired
+    CustomerServiceI csi;
 
-	@GetMapping("/getStatus/{enquiryStatus}")
-	public ResponseEntity<List<CustomerEnquiry>> getEnquirystatus(@PathVariable ("enquiryStatus")String enquiryStatus)
-	{
-		List<CustomerEnquiry> status = csi.getDataByStatus(enquiryStatus);
-		return new ResponseEntity<List<CustomerEnquiry>>(status,HttpStatus.OK);
-	
-	}
+    @Autowired
+    RestTemplate rs;
 
-	@PostMapping("/email")
-	public String sendMail(@RequestBody EmailSender e)
-	{
-		try {
-			e.setFrom(from);
-			service.sendMail(e);
-		} catch (Exception e2) {
-			return "email not send"+e2;
-		}
-		return "email send";
-		}
-	
-	@GetMapping("/approved")
-	public ResponseEntity<List<CustomerEnquiry>> approvedCustomer(){
-		List<CustomerEnquiry> approvedStatus = csi.findApprovedStatus();
-		
-		return new ResponseEntity<List<CustomerEnquiry>>(approvedStatus,HttpStatus.OK);
-		
-	}
-	@GetMapping("/rejected")
-	public ResponseEntity<List<CustomerEnquiry>> rejectedCustomer(){
-		List<CustomerEnquiry> rs = csi.findRejectedStatus();
-		
-		return new ResponseEntity<List<CustomerEnquiry>>(rs,HttpStatus.FOUND);
-		
-	}
-	
-	}
+    @PostMapping("/add")
+    public ResponseEntity<String> createCustomer(@RequestBody CustomerEnquiry cs) {
+        LOGGER.info("Entering createCustomer with data: {}", cs);
+        cs.setEnquiryStatus("Pending");
+        csi.savedata(cs);
+        LOGGER.info("Customer enquiry saved successfully.");
+        return new ResponseEntity<>("Data Added Successfully !!", HttpStatus.CREATED);
+    }
 
+    @GetMapping("/getAll")
+    public ResponseEntity<List<CustomerEnquiry>> getAllData() {
+        LOGGER.info("Fetching all customer enquiries");
+        List<CustomerEnquiry> list = csi.getAllCustomerEnquiryData();
+        LOGGER.info("Found {} customer enquiries", list.size());
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
+    @PutMapping("/update/{CustomerId}")
+    public ResponseEntity<CustomerEnquiry> updatedata(@RequestBody CustomerEnquiry c, @PathVariable int CustomerId) {
+        LOGGER.info("Updating customer enquiry with ID: {}", CustomerId);
+        CustomerEnquiry ce = csi.updateCustomerEnquiryData(c, CustomerId);
+        LOGGER.info("Customer enquiry updated: {}", ce);
+        return new ResponseEntity<>(ce, HttpStatus.ACCEPTED);
+    }
 
+    @DeleteMapping("/deleteById/{CustomerId}")
+    public ResponseEntity<String> deleteCustomerById(@PathVariable int CustomerId) {
+        LOGGER.info("Deleting customer enquiry with ID: {}", CustomerId);
+        String result = csi.deleteCustomer(CustomerId);
+        LOGGER.info("Delete operation result: {}", result);
+        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+    }
 
+    @PutMapping("updateCibilStatus/{CustomerId}")
+    public ResponseEntity<CustomerEnquiry> updateCibilStatus(@PathVariable("CustomerId") int CustomerId) {
+        LOGGER.info("Updating CIBIL status for customer ID: {}", CustomerId);
+        CustomerEnquiry customer = csi.getCustomer(CustomerId);
+        String cibilUrl = "http://localhost:1001/cibil/" + customer.getCi().getCibilid();
+        LOGGER.info("Calling external CIBIL service: {}", cibilUrl);
+        Cibil cibil = rs.getForObject(cibilUrl, Cibil.class);
+        customer.setCi(cibil);
+        CustomerEnquiry updated = csi.updateCibilStatus(customer);
+        LOGGER.info("CIBIL status updated for customer: {}", updated);
+        return new ResponseEntity<>(updated, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getby/{CustomerId}")
+    public ResponseEntity<CustomerEnquiry> getSingle(@PathVariable("CustomerId") int CustomerId) {
+        LOGGER.info("Fetching single customer enquiry by ID: {}", CustomerId);
+        CustomerEnquiry ce = csi.getSingleRecord(CustomerId);
+        LOGGER.info("Customer enquiry retrieved: {}", ce);
+        return new ResponseEntity<>(ce, HttpStatus.OK);
+    }
+
+    @GetMapping("/getStatus/{enquiryStatus}")
+    public ResponseEntity<List<CustomerEnquiry>> getEnquirystatus(@PathVariable("enquiryStatus") String enquiryStatus) {
+        LOGGER.info("Fetching customer enquiries with status: {}", enquiryStatus);
+        List<CustomerEnquiry> statusList = csi.getDataByStatus(enquiryStatus);
+        LOGGER.info("Found {} customer enquiries with status '{}'", statusList.size(), enquiryStatus);
+        return new ResponseEntity<>(statusList, HttpStatus.OK);
+    }
+
+    @PostMapping("/email")
+    public String sendMail(@RequestBody EmailSender e) {
+        LOGGER.info("Sending email to: {}", e.getTo());
+        try {
+            e.setFrom(from);
+            service.sendMail(e);
+        } catch (Exception ex) {
+            LOGGER.error("Failed to send email", ex);
+            return "email not send: " + ex.getMessage();
+        }
+        LOGGER.info("Email sent successfully to: {}", e.getTo());
+        return "email send";
+    }
+
+    @GetMapping("/approved")
+    public ResponseEntity<List<CustomerEnquiry>> approvedCustomer() {
+        LOGGER.info("Fetching approved customer enquiries");
+        List<CustomerEnquiry> approvedStatus = csi.findApprovedStatus();
+        LOGGER.info("Found {} approved enquiries", approvedStatus.size());
+        return new ResponseEntity<>(approvedStatus, HttpStatus.OK);
+    }
+
+    @GetMapping("/rejected")
+    public ResponseEntity<List<CustomerEnquiry>> rejectedCustomer() {
+        LOGGER.info("Fetching rejected customer enquiries");
+        List<CustomerEnquiry> rejectedStatus = csi.findRejectedStatus();
+        LOGGER.info("Found {} rejected enquiries", rejectedStatus.size());
+        return new ResponseEntity<>(rejectedStatus, HttpStatus.FOUND);
+    }
+}
